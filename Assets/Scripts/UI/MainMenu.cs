@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         this.document = GetComponent<UIDocument>();
-        var playBtn = document.rootVisualElement.Q<Button>();
+        var playBtn = document.rootVisualElement.Q<Button>(UIIdentifiers.play);
         playBtn.RegisterCallback<MouseUpEvent>(async _ => 
         {
             await SceneOperations.LoadScenes(toLoad, () => Debug.Log("Finished load"));

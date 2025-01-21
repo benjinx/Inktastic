@@ -1,11 +1,11 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
-using System.Threading;
+using System.Runtime.CompilerServices;
 
-public static class SceneOperations {
+public static class SceneOperations
+{
     public static Task ConvertAsyncOperationToTask(AsyncOperation asyncOperation)
     {
         var taskCompletionSource = new TaskCompletionSource<bool>();
@@ -23,41 +23,41 @@ public static class SceneOperations {
         return taskCompletionSource.Task;
     }
 
-    public static async Task LoadScenes(SceneSet toLoad, Action onFinished) {
+    public static async Task LoadScenes(SceneSet toLoad, LoadSceneMode loadOptions)
+    {
+        await LoadScenes(toLoad, null, loadOptions);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static async Task LoadScenes(SceneSet toLoad, Action onFinished, LoadSceneMode loadOptions = LoadSceneMode.Additive)
+    {
         var tasks = new Task[toLoad.SceneIndices.Count];
         var count = 0;
-        foreach (var i in toLoad.SceneIndices) {
+        foreach (var i in toLoad.SceneIndices)
+        {
             tasks[count++] = ConvertAsyncOperationToTask(SceneManager.LoadSceneAsync(i, LoadSceneMode.Additive));
         }
         await Task.WhenAll(tasks);
         onFinished?.Invoke();
     }
 
-    public static async Task UnloadScenes(SceneSet toUnload, Action onFinished) {
+    public static async Task UnloadScenes(SceneSet toUnload, UnloadSceneOptions unloadOptions = UnloadSceneOptions.UnloadAllEmbeddedSceneObjects)
+    {
+        await UnloadScenes(toUnload, null, unloadOptions);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static async Task UnloadScenes(SceneSet toUnload, Action onFinished, UnloadSceneOptions unloadOptions = UnloadSceneOptions.UnloadAllEmbeddedSceneObjects)
+    {
         var tasks = new Task[toUnload.SceneIndices.Count];
         var count = 0;
-        foreach (var i in toUnload.SceneIndices) {
-            var op = SceneManager.UnloadSceneAsync(i, UnloadSceneOptions.None);
+        foreach (var i in toUnload.SceneIndices)
+        {
+            var op = SceneManager.UnloadSceneAsync(i, unloadOptions);
             Debug.Log(op == null);
             tasks[count++] = ConvertAsyncOperationToTask(op);
         }
         await Task.WhenAll(tasks);
         onFinished?.Invoke();
-    }
-}
-
-class SceneOperationsManager : MonoBehaviour {
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    private static void BeforeSceneLoad()
-    {
-        var go = new GameObject(nameof(SceneOperationsManager)) 
-        {
-            hideFlags = HideFlags.HideAndDontSave
-        };
-        var _ = go.AddComponent<SceneOperationsManager>();
-    }
-
-    private void LateUpdate()
-    {
     }
 }

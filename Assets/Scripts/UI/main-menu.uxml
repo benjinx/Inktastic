@@ -1,5 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:Label text="Inktastic" name="title" style="align-items: stretch; -unity-text-align: upper-center; font-size: 64px;" />
-    <ui:Button text="Play" name="play" />
-    <ui:Button text="Quit" name="quit" />
+    <Style src="project://database/Assets/Scripts/UI/common.uss?fileID=7433441132597879392&amp;guid=d750e8c839e85654ca29b2ce5b9cd440&amp;type=3#common" />
+    <ui:VisualElement class="fullscreen-background" />
+    <ui:Label text="Inktastic" name="title" class="title-centered title-large" style="width: 30%;" />
+    <ui:Button text="Play" name="play" class="title-centered title-medium" />
+    <ui:Button text="Credits" name="credits" class="title-centered title-medium" />
+    <ui:Button text="Quit" name="quit" class="title-centered title-medium" />
 </ui:UXML>

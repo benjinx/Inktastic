@@ -1,10 +1,6 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using UnityEditor.Build.Content;
-
-
-
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -37,7 +33,6 @@ public class SceneSet : ScriptableObject
             var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(s.path);
             if (Array.IndexOf(sceneAssets, sceneAsset) > -1)
             {
-                Debug.Log($"Found {sceneAsset} at build index {i}");
                 sceneIndices[count++] = i;
             }
         }
