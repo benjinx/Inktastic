@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2850375789101796397
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 616121866676089010}
+  - component: {fileID: 1928899449812634757}
+  - component: {fileID: 2186644199714142089}
+  m_Layer: 0
+  m_Name: Bubble Spawner test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &616121866676089010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2850375789101796397}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.31167394, y: -0.65589017, z: -1.0947168}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1928899449812634757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2850375789101796397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33a24bd0886645e4fbda3126d8170e28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: bubbles
+    prefab: {fileID: 8594056324370085697, guid: dcf03219ec2d7904d8c7ff13a3834dc8, type: 3}
+    currentlySpawnedObjs: []
+    size: 16
+    instantiateOnAwake: 1
+    audioPool: 0
+    poolSound:
+      name: 
+      clip: {fileID: 0}
+      useVariants: 0
+      clipVariants: []
+      volume: 0
+      pitch: 0
+      usePitchVariation: 0
+      minPitch: 0
+      maxPitch: 0
+      loop: 0
+      source: {fileID: 0}
+      pooledSources: []
+      audioChannel: 0
+--- !u!114 &2186644199714142089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2850375789101796397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e59774a2d45ba45a86192b49c06894, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
