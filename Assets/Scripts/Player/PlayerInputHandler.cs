@@ -12,6 +12,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private InputAction moveAction;
     private InputAction lookAction;
+    private InputAction dodgeAction;
 
 
     private void Awake()
@@ -24,9 +25,12 @@ public class PlayerInputHandler : MonoBehaviour
         controls = new InputMain();
         moveAction = controls.Player.Move;
         lookAction = controls.Player.Look;
+        dodgeAction = controls.Player.Dodge;
         moveAction.Enable();
         lookAction.Enable();
+        dodgeAction.Enable();
         InputSystem.onEvent += OnInputEvent;
+        dodgeAction.performed += HandleDodgeInput;
 
     }
 
@@ -50,6 +54,14 @@ public class PlayerInputHandler : MonoBehaviour
             gamePad = false;
         }
 
+    }
+
+    public void HandleDodgeInput(InputAction.CallbackContext obj)
+    {
+        if (obj.performed && psm.GetCurrentState() != psm.dodgeState)
+        {
+            psm.ChangeState(psm.dodgeState);
+        }
     }
 
     private void Update()

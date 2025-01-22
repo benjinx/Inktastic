@@ -12,11 +12,14 @@ public class PlayerControllerState : PlayerState
     public float currentLookAngle;
     public float playerSpeed;
     public float controllerLookSpeed;
+    public float accelerationSpeed;
+    public float friction;
     public GameObject pointerSprite;
 
     public Vector3 currentPlayerVelocity;
     public Vector3 mouseWorldPosition;
     public Vector3 mouseScreenPosition;
+    private Vector3 desiredDirection;
     private float currentSpeed;
 
     public void UpdatePlayerMovement(Vector2 _move)
@@ -40,21 +43,31 @@ public class PlayerControllerState : PlayerState
     public void Movement()
     {
 
-        //currentSpeed = Mathf.Lerp(currentSpeed, maxSpeedThisFrame, currentAccelerationMod * Time.deltaTime);
-        currentSpeed = playerSpeed;
+        if(moveInput.magnitude >= 0.1f)
+        {
+            currentSpeed = Mathf.Lerp(currentSpeed, playerSpeed, accelerationSpeed * Time.deltaTime);
+            //currentSpeed = playerSpeed;
 
-        // Get the adjusted camera forward direction
-        Vector3 cameraForward = Camera.main.transform.forward;
-        cameraForward.y = 0f; // Remove the vertical component
-        cameraForward.Normalize();
+            // Get the adjusted camera forward direction
+            Vector3 cameraForward = Camera.main.transform.forward;
+            cameraForward.y = 0f; // Remove the vertical component
+            cameraForward.Normalize();
 
-        // Get the camera's right direction
-        Vector3 cameraRight = Camera.main.transform.right;
-        cameraRight.y = 0f; // Remove the vertical component
-        cameraRight.Normalize();
+            // Get the camera's right direction
+            Vector3 cameraRight = Camera.main.transform.right;
+            cameraRight.y = 0f; // Remove the vertical component
+            cameraRight.Normalize();
+
+            desiredDirection = (cameraRight * moveInput.x + cameraForward * moveInput.y);
+        }
+        else
+        {
+            currentSpeed = Mathf.Lerp(currentSpeed, 0, friction * Time.deltaTime);
+        }
+       
 
 
-        currentPlayerVelocity = (cameraRight * moveInput.x  + cameraForward * moveInput.y) * currentSpeed;
+        currentPlayerVelocity = desiredDirection * currentSpeed;
     }
 
     public void MovePlayer()
