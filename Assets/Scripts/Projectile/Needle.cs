@@ -5,7 +5,7 @@ public class Needle : MonoBehaviour
     public Transform floatTarget;
 
     public float floatRadius = 0.25f;
-    public float speed = 0.5f;
+    public float floatSpeed = 0.5f;
 
     private float seedX, seedY, seedZ;
 
@@ -13,7 +13,9 @@ public class Needle : MonoBehaviour
 
     private bool isShooting = false;
 
-    private Transform hitTarget;
+    private Vector3 targetDirection;
+
+    public float projectileSpeed = 2.0f;
 
     void Start()
     {
@@ -26,33 +28,37 @@ public class Needle : MonoBehaviour
     {
         if (isFloating)
         {
-            float x = Mathf.PerlinNoise(seedX, Time.time * speed) * 2.0f - 1.0f;
-            float y = Mathf.PerlinNoise(seedY, Time.time * speed) * 2.0f - 1.0f;
-            float z = Mathf.PerlinNoise(seedZ, Time.time * speed) * 2.0f - 1.0f;
+            float x = Mathf.PerlinNoise(seedX, Time.time * floatSpeed) * 2.0f - 1.0f;
+            float y = Mathf.PerlinNoise(seedY, Time.time * floatSpeed) * 2.0f - 1.0f;
+            float z = Mathf.PerlinNoise(seedZ, Time.time * floatSpeed) * 2.0f - 1.0f;
 
             Vector3 offset = new Vector3(x, y, z) * floatRadius;
 
-            transform.position = Vector3.Lerp(transform.position, floatTarget.position + offset, speed);
+            transform.position = Vector3.Lerp(transform.position, floatTarget.position + offset, floatSpeed);
         }
 
         if (isShooting)
-        {
-            transform.position = Vector3.Lerp(transform.position, hitTarget.position, speed * Time.deltaTime);
+        {            
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                Quaternion.FromToRotation(Vector3.up, targetDirection),
+                5.0f * Time.deltaTime);
+
+            transform.position += transform.up * projectileSpeed * Time.deltaTime;
         }
     }
 
     // Called to shoot the spike
-    public void ShootSpike(Transform target)
+    public void ShootSpike(Vector3 target)
     {
         isFloating = false;
 
         isShooting = true;
 
-        hitTarget = target;
+        targetDirection = target;
     }
 
     // Called when we hit the target
-    public void TargetHit()
+    public void TargetHit(Transform hitTarget)
     {
         transform.parent = hitTarget;
         isShooting = false;
