@@ -809,6 +809,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Debug",
+            "id": "4e973ca8-6f57-4186-8a61-986cdda9c8c1",
+            "actions": [
+                {
+                    "name": "EndGame",
+                    "type": "Button",
+                    "id": "bfd17730-2291-42c0-a901-d05f6648df01",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "3883e66e-abbf-405b-ac2e-8806bab710a5",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "EndGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

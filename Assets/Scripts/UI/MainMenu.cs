@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
@@ -7,19 +8,17 @@ public class MainMenu : MonoBehaviour
     private UIDocument document;
 
     [SerializeField]
-    private SceneSet toLoad;
-
-    [SerializeField]
-    private SceneSet toUnload;
+    [FormerlySerializedAs("toLoad")]
+    private SceneSet sceneSet;
 
     private void Start()
     {
         this.document = GetComponent<UIDocument>();
         var playBtn = document.rootVisualElement.Q<Button>(UIIdentifiers.play);
-        playBtn.RegisterCallback<MouseUpEvent>(async _ => 
+        playBtn.RegisterCallback<MouseUpEvent>(async _ =>
         {
-            await SceneOperations.LoadScenes(toLoad, () => Debug.Log("Finished load"));
-            await SceneOperations.UnloadScenes(toUnload, () => Debug.Log("Finished unload"));
+            await SceneOperations.LoadScenes(sceneSet.SceneLoadIndices, () => Debug.Log("Finished load"));
+            await SceneOperations.UnloadScenes(sceneSet.SceneUnloadIndices, () => Debug.Log("Finished unload"));
         });
     }
 }

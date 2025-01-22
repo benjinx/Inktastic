@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 462f36e1c50e6ca47a9cd8ec03e4355f, type: 3}
-  m_Name: MainMenuLoad
+  m_Name: GameplaySceneNode
   m_EditorClassIdentifier: 
-  sceneAssets:
+  toLoad:
+  - {fileID: 102900000, guid: d4df1ca1dfe8e764d9acb9a4c054cc66, type: 3}
+  toUnload:
   - {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}

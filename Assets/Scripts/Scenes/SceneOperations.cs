@@ -3,6 +3,7 @@ using System;
 using UnityEngine.SceneManagement;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 
 public static class SceneOperations
 {
@@ -23,39 +24,41 @@ public static class SceneOperations
         return taskCompletionSource.Task;
     }
 
-    public static async Task LoadScenes(SceneSet toLoad, LoadSceneMode loadOptions)
+    public static async Task LoadScenes(IReadOnlyList<int> toLoad, LoadSceneMode loadOptions = LoadSceneMode.Additive)
     {
         await LoadScenes(toLoad, null, loadOptions);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static async Task LoadScenes(SceneSet toLoad, Action onFinished, LoadSceneMode loadOptions = LoadSceneMode.Additive)
+    public static async Task LoadScenes(IReadOnlyList<int> toLoad, Action onFinished, LoadSceneMode loadOptions = LoadSceneMode.Additive)
     {
-        var tasks = new Task[toLoad.SceneIndices.Count];
+        var tasks = new Task[toLoad.Count];
         var count = 0;
-        foreach (var i in toLoad.SceneIndices)
+        foreach (var i in toLoad)
         {
-            tasks[count++] = ConvertAsyncOperationToTask(SceneManager.LoadSceneAsync(i, LoadSceneMode.Additive));
+            tasks[count++] = ConvertAsyncOperationToTask(SceneManager.LoadSceneAsync(i, loadOptions));
         }
         await Task.WhenAll(tasks);
         onFinished?.Invoke();
     }
 
-    public static async Task UnloadScenes(SceneSet toUnload, UnloadSceneOptions unloadOptions = UnloadSceneOptions.UnloadAllEmbeddedSceneObjects)
+    public static async Task UnloadScenes(IReadOnlyList<int> toUnload, UnloadSceneOptions unloadOptions = UnloadSceneOptions.UnloadAllEmbeddedSceneObjects)
     {
         await UnloadScenes(toUnload, null, unloadOptions);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static async Task UnloadScenes(SceneSet toUnload, Action onFinished, UnloadSceneOptions unloadOptions = UnloadSceneOptions.UnloadAllEmbeddedSceneObjects)
+    public static async Task UnloadScenes(IReadOnlyList<int> toUnload, Action onFinished, UnloadSceneOptions unloadOptions = UnloadSceneOptions.UnloadAllEmbeddedSceneObjects)
     {
-        var tasks = new Task[toUnload.SceneIndices.Count];
+        var tasks = new Task[toUnload.Count];
         var count = 0;
-        foreach (var i in toUnload.SceneIndices)
+        foreach (var i in toUnload)
         {
             var op = SceneManager.UnloadSceneAsync(i, unloadOptions);
-            Debug.Log(op == null);
-            tasks[count++] = ConvertAsyncOperationToTask(op);
+            if (op != null)
+            {
+                tasks[count++] = ConvertAsyncOperationToTask(op);
+            }
         }
         await Task.WhenAll(tasks);
         onFinished?.Invoke();

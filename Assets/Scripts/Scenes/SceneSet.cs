@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -9,31 +10,39 @@ using UnityEditor;
 [CreateAssetMenu(fileName = "SceneSet", menuName = "Scriptable Objects/SceneSet")]
 public class SceneSet : ScriptableObject
 {
-    public IReadOnlyList<int> SceneIndices => sceneIndices;
-    private int[] sceneIndices = new int[0];
+    public IReadOnlyList<int> SceneLoadIndices => loadIndices;
+    public IReadOnlyList<int> SceneUnloadIndices => unloadIndices;
+
+    private int[] loadIndices = Array.Empty<int>();
+    private int[] unloadIndices = Array.Empty<int>();
 
 #if UNITY_EDITOR
     [SerializeField]
-    private SceneAsset[] sceneAssets;
+    [FormerlySerializedAs("sceneAssets")]
+    private SceneAsset[] toLoad;
+
+    [SerializeField]
+    private SceneAsset[] toUnload;
 
     private void OnValidate()
     {
-        Initialize();
+        Initialize(toLoad, ref loadIndices);
+        Initialize(toUnload, ref unloadIndices);
     }
 
-    private void Initialize()
+    private static void Initialize(SceneAsset[] sceneAssets, ref int[] indices)
     {
-        var scenes = EditorBuildSettings.scenes;
-        sceneIndices = new int[sceneAssets.Length];
+        var buildSettingScenes = EditorBuildSettings.scenes;
+        indices = new int[sceneAssets.Length];
 
         var count = 0;
-        for (var i = 0; i < scenes.Length; i++)
+        for (var i = 0; i < buildSettingScenes.Length; i++)
         {
-            EditorBuildSettingsScene s = scenes[i];
+            EditorBuildSettingsScene s = buildSettingScenes[i];
             var sceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(s.path);
             if (Array.IndexOf(sceneAssets, sceneAsset) > -1)
             {
-                sceneIndices[count++] = i;
+                indices[count++] = i;
             }
         }
     }
