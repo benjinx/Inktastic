@@ -6,7 +6,7 @@ public class Needle : MonoBehaviour
     public Transform target;
 
     public float floatRadius = 0.25f;
-    public float speed = 2.0f;
+    public float speed = 0.5f;
 
     private float seedX, seedY, seedZ;
 
@@ -25,6 +25,6 @@ public class Needle : MonoBehaviour
 
         Vector3 offset = new Vector3(x, y, z) * floatRadius;
 
-        transform.position = Vector3.Lerp(transform.position, target.position + offset, Time.deltaTime * speed);
+        transform.position = Vector3.Lerp(transform.position, target.position + offset, speed);
     }
 }
