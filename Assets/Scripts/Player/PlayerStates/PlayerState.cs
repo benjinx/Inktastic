@@ -6,23 +6,23 @@ public class PlayerState : BizarreTools.StateMachine.IState
 {
     public PlayerStateMachine psm;
 
-    public void OnFixedUpdate()
+    public virtual void OnFixedUpdate()
     {
     }
 
-    public void OnLateUpdate()
+    public virtual void OnLateUpdate()
     {
     }
 
-    public void OnStateEnter()
+    public virtual void OnStateEnter()
     {
     }
 
-    public void OnStateExit()
+    public virtual void OnStateExit()
     {
     }
 
-    public void OnStateUpdate()
+    public virtual void OnStateUpdate()
     { 
     
     }
