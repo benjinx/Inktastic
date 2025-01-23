@@ -1,16 +1,12 @@
 using UnityEngine;
+using BizarreTools.StateMachine;
 
-public class EnemyStateMachine : MonoBehaviour
+public class EnemyStateMachine : BizarreTools.StateMachine.StateMachine
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public EnemyPatrolState patrolState;
+    public EnemyAgroState agroState;
+    public EnemyAttackState attackState;
+    public EnemyStunState stunState;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }

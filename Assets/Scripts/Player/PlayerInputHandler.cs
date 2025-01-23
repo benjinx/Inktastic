@@ -64,7 +64,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (obj.performed && psm.GetCurrentState() != psm.dodgeState && psm.GetCurrentState() != psm.attackState)
         {
-            psm.ChangeState(psm.dodgeState);
+            psm.TryChangeState(psm.dodgeState);
         }
     }
 
@@ -72,7 +72,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (obj.performed && psm.GetCurrentState() != psm.attackState && psm.GetCurrentState() != psm.dodgeState)
         {
-            psm.ChangeState(psm.attackState);
+            psm.TryChangeState(psm.attackState);
         }
     }
 

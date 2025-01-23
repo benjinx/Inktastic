@@ -21,6 +21,11 @@ public class PlayerStateMachine : StateMachine
         attackState.psm = this;
         deathState.psm = this;
 
+        DefineTransition(controllerState, dodgeState);
+        DefineTransition(dodgeState, controllerState);
+        DefineTransition(controllerState, attackState);
+        DefineTransition(attackState, controllerState);
+
         ChangeState(controllerState);
     }
 

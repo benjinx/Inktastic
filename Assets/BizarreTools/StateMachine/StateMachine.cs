@@ -54,9 +54,9 @@ namespace BizarreTools.StateMachine
             stateTransitions.Add(trans);
         }
 
-        public virtual void TryChangeState(IState _from, IState _to)
+        public virtual void TryChangeState(IState _to)
         {
-            if(ValidTransitionCheck(_from, _to))
+            if(ValidTransitionCheck(GetCurrentState(), _to))
             {
                 ChangeState(_to);
             }
