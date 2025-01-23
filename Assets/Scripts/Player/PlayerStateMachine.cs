@@ -5,6 +5,7 @@ public class PlayerStateMachine : StateMachine
 {
     public PlayerControllerState controllerState;
     public PlayerDodgeState dodgeState;
+    public PlayerAttackState attackState;
     public PlayerDeathState deathState;
 
     private void Start()
@@ -17,6 +18,7 @@ public class PlayerStateMachine : StateMachine
         controllerState.psm = this;
         controllerState.cCon = GetComponent<CharacterController>();
         dodgeState.psm = this;
+        attackState.psm = this;
         deathState.psm = this;
 
         ChangeState(controllerState);

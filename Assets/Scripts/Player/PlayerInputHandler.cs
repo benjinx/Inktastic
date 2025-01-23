@@ -13,6 +13,7 @@ public class PlayerInputHandler : MonoBehaviour
     private InputAction moveAction;
     private InputAction lookAction;
     private InputAction dodgeAction;
+    private InputAction attackAction;
 
 
     private void Awake()
@@ -26,11 +27,14 @@ public class PlayerInputHandler : MonoBehaviour
         moveAction = controls.Player.Move;
         lookAction = controls.Player.Look;
         dodgeAction = controls.Player.Dodge;
+        attackAction = controls.Player.Attack;
         moveAction.Enable();
         lookAction.Enable();
         dodgeAction.Enable();
+        attackAction.Enable();
         InputSystem.onEvent += OnInputEvent;
         dodgeAction.performed += HandleDodgeInput;
+        attackAction.performed += HandleAttackInput;
 
     }
 
@@ -58,9 +62,17 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void HandleDodgeInput(InputAction.CallbackContext obj)
     {
-        if (obj.performed && psm.GetCurrentState() != psm.dodgeState)
+        if (obj.performed && psm.GetCurrentState() != psm.dodgeState && psm.GetCurrentState() != psm.attackState)
         {
             psm.ChangeState(psm.dodgeState);
+        }
+    }
+
+    public void HandleAttackInput(InputAction.CallbackContext obj)
+    {
+        if (obj.performed && psm.GetCurrentState() != psm.attackState && psm.GetCurrentState() != psm.dodgeState)
+        {
+            psm.ChangeState(psm.attackState);
         }
     }
 

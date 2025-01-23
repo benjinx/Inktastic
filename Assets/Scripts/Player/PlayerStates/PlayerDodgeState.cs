@@ -4,12 +4,12 @@ using UnityEngine;
 public class PlayerDodgeState : PlayerState
 {
     public AnimationCurve velocityCurve;
-    public float dodgeDuration;
-    public float dodgeSpeedMultiplier;
-    public float dodgeStartingSpeed;
+    public float dashDuration;
+    public float dashSpeedMultiplier;
+    public float dashStartingSpeed;
 
-    private float currentDodgeTime;
-    private Vector3 dodgeDirection;
+    protected float currentDashTime;
+    protected Vector3 dashDirection;
 
     public override void OnStateEnter()
     {
@@ -18,12 +18,12 @@ public class PlayerDodgeState : PlayerState
         //get current movement dir
         if(psm.controllerState.currentPlayerVelocity.magnitude >= 0.1)
         {
-            dodgeDirection = psm.controllerState.currentPlayerVelocity.normalized;
+            dashDirection = psm.controllerState.currentPlayerVelocity.normalized;
         }
         else
         {
             //if zero use aim direction
-            dodgeDirection = Quaternion.Euler(0, psm.controllerState.currentLookAngle, 0) * Vector3.forward;
+            dashDirection = Quaternion.Euler(0, psm.controllerState.currentLookAngle, 0) * Vector3.forward;
         }
 
         //psm.controllerState.currentPlayerVelocity = dodgeDirection;
@@ -32,11 +32,11 @@ public class PlayerDodgeState : PlayerState
     {
         base.OnStateUpdate();
 
-        currentDodgeTime += Time.deltaTime;
+        currentDashTime += Time.deltaTime;
 
-        psm.controllerState.cCon.Move((dodgeDirection * (velocityCurve.Evaluate(currentDodgeTime / dodgeDuration) + dodgeStartingSpeed) * dodgeSpeedMultiplier) * Time.deltaTime);
+        psm.controllerState.cCon.Move((dashDirection * (velocityCurve.Evaluate(currentDashTime / dashDuration) + dashStartingSpeed) * dashSpeedMultiplier) * Time.deltaTime);
 
-        if(currentDodgeTime >= dodgeDuration)
+        if(currentDashTime >= dashDuration)
         {
             psm.ChangeState(psm.controllerState);
         }
@@ -46,6 +46,6 @@ public class PlayerDodgeState : PlayerState
     public override void OnStateExit()
     {
         base.OnStateExit();
-        currentDodgeTime = 0;
+        currentDashTime = 0;
     }
 }

@@ -5,6 +5,10 @@ public class PlayerGraphicsHandler : MonoBehaviour
     public Transform graphicParent;
     public SpriteRenderer spriteRenderer;
 
+    public SpriteSet idleSet, moveSet, dashSet;
+    private SpriteSet currentSpriteSet;
+
+    //WIP REFACTORING
     public Sprite idleSprite;
     public Sprite moveSprite;
     public Sprite moveBackSprite;
@@ -81,4 +85,10 @@ public class PlayerGraphicsHandler : MonoBehaviour
         spriteRenderer.flipX = psm.controllerState.currentLookAngle <= 0;
     }
 
+}
+
+[System.Serializable]
+public struct SpriteSet
+{
+    public Sprite forward, back, side;
 }
