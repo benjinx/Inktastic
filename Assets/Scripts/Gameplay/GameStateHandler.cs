@@ -17,4 +17,9 @@ public static class GameplayStates
             _OnGameFinished -= value;
         }
     }
+
+    internal static void EndGame(bool win)
+    {
+        _OnGameFinished?.Invoke(win);
+    }
 }

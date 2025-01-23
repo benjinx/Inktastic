@@ -1,4 +1,6 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/Scripts/UI/common.uss?fileID=7433441132597879392&amp;guid=d750e8c839e85654ca29b2ce5b9cd440&amp;type=3#common" />
+    <engine:VisualElement name="background" class="fullscreen-background" style="flex-grow: 1;" />
+    <engine:Label text="You win!" name="msg" class="title-centered title-large" />
     <engine:Button text="Return to Main Menu" name="return" class="title-centered title-medium" style="white-space: normal; width: 45%;" />
 </engine:UXML>

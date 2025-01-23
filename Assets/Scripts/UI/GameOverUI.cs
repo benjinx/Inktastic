@@ -48,13 +48,14 @@ public class GameOverUI : MonoBehaviour
         });
     }
 
-    private void EndGameContext(CallbackContext ctx)
+    private void EndGameContext(CallbackContext _)
     {
-        root.style.display = DisplayStyle.Flex;
+        GameplayStates.EndGame(Random.Range(0, 1) < 0.5f);
     }
 
     private void OnGameFinished(bool _)
     {
         root.style.display = DisplayStyle.Flex;
+        var label = root.Q<Label>(UIIdentifiers.msg);
     }
 }
