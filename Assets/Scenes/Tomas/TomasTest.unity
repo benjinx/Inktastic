@@ -327,6 +327,9 @@ GameObject:
   m_Component:
   - component: {fileID: 562766018}
   - component: {fileID: 562766019}
+  - component: {fileID: 562766021}
+  - component: {fileID: 562766020}
+  - component: {fileID: 562766022}
   m_Layer: 0
   m_Name: BaseEnemy
   m_TagString: Untagged
@@ -372,6 +375,88 @@ MonoBehaviour:
     m_Bits: 0
   invincibleTimer: 0.1
   actorRenderer: {fileID: 1266160084}
+--- !u!114 &562766020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562766017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98ff944691d8258439e4f96d48b6e5ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  esm: {fileID: 0}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  radius: 53.62
+  angle: 121.96
+  checkInterval: 0.1
+  eyePointer: {fileID: 0}
+  activeTarget: {fileID: 0}
+  lastSeenPos: {x: 0, y: 0, z: 0}
+  canSeeCurrentTarget: 0
+  distanceToTarget: 0
+--- !u!114 &562766021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562766017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e472dcdba15cbe46ab05b0da762e000, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugState: 
+  patrolState:
+    esm: {fileID: 0}
+    newSearchInterval: 10
+    searchReconDistance: 5
+    patrolSpeed: 2
+  agroState:
+    esm: {fileID: 0}
+  attackState:
+    esm: {fileID: 0}
+  stunState:
+    esm: {fileID: 0}
+  deathState:
+    esm: {fileID: 0}
+  eyes: {fileID: 2089905365}
+  currentLookAngle: 0
+  pointerSprite: {fileID: 2089905363}
+  cCon: {fileID: 0}
+--- !u!143 &562766022
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562766017}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 3.11
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1.6, z: 0}
 --- !u!1 &604256792
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,6 +1154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2089905364}
+  - component: {fileID: 2089905365}
   m_Layer: 0
   m_Name: Pointer
   m_TagString: Untagged
@@ -1092,6 +1178,33 @@ Transform:
   - {fileID: 1376673844}
   m_Father: {fileID: 562766018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2089905365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089905363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98ff944691d8258439e4f96d48b6e5ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  esm: {fileID: 562766021}
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 64
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  radius: 53.62
+  angle: 121.96
+  checkInterval: 0.1
+  eyePointer: {fileID: 0}
+  activeTarget: {fileID: 0}
+  lastSeenPos: {x: 0, y: 0, z: 0}
+  canSeeCurrentTarget: 0
+  distanceToTarget: 0
 --- !u!1001 &978091391154003556
 PrefabInstance:
   m_ObjectHideFlags: 0

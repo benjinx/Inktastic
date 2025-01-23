@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4325203715444107483}
   - component: {fileID: 5553883903595893348}
   - component: {fileID: 14257191045164603}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DashHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,7 +112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8469957758959498486}
   - component: {fileID: 3815737169424333690}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DashSpline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3144846840154209329}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pointer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 432474944192159590}
   - component: {fileID: 745989951522036759}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,7 +347,7 @@ GameObject:
   - component: {fileID: 3854040018868928097}
   - component: {fileID: 6090504503914395201}
   - component: {fileID: 5559884984607402307}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -591,7 +591,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7327504553425116760}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DashAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -624,7 +624,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7890914101440092996}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Attacks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -656,7 +656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 81695265331619280}
   - component: {fileID: 327772624071162333}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlayerCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -744,7 +744,7 @@ GameObject:
   - component: {fileID: 3820371418088148738}
   - component: {fileID: 1905830579388933295}
   - component: {fileID: 7954971854806185232}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -819,7 +819,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4618850461362752239}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Graphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -852,7 +852,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1581460868225092604}
   - component: {fileID: 7951400443999038393}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PointerGraphic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
