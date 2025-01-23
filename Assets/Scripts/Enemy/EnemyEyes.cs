@@ -58,12 +58,13 @@ public class EnemyEyes : MonoBehaviour
 
     public void Spook(PlayerStateMachine _actor)
     {
-        if (esm.GetCurrentState() != esm.deathState && _actor != null)
+        if(esm == null)
         {
-            activeTarget = _actor;
-            esm.OnSpook();
+            return;
         }
 
+        activeTarget = _actor;
+        esm.OnSpook();
         //bark to other enemies
     }
 
@@ -101,7 +102,7 @@ public class EnemyEyes : MonoBehaviour
 
                         if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionMask))
                         {
-                            if (activeTarget == null)
+                            if (activeTarget == null && target != null)
                             {
                                 Spook(target);
                                 //esm.agroState.Bark();

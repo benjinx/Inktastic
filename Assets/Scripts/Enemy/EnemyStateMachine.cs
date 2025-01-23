@@ -29,6 +29,9 @@ public class EnemyStateMachine : BizarreTools.StateMachine.StateMachine
         stunState.esm = this;
         deathState.esm = this;
 
+        DefineTransition(agroState, attackState);
+        DefineTransition(attackState, agroState);
+
         ChangeState(patrolState);
     }
 

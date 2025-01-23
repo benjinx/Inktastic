@@ -73,7 +73,7 @@ public class Hitbox : MonoBehaviour
                 {
                     Hitbox hitbox = hits[i].collider.GetComponent<Hitbox>();
 
-                    if (!alreadyHit.Contains(hitbox.combat) && hitbox.combat != this.combat)
+                    if (!alreadyHit.Contains(hitbox.combat) && hitbox.combat != this.combat && hitbox.combat.teamIndex != combat.teamIndex)
                     {
                         //take damage
                         //add to already hit

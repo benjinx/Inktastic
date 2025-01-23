@@ -5,6 +5,8 @@ public class EnemyAgroState : EnemyState
 {
     public float agroSpeed;
     public float attackDistance;
+
+    [Range(0,100)]
     public float attackProbability;
     public float attackCooldown;
     public float investigateTime;
@@ -12,10 +14,21 @@ public class EnemyAgroState : EnemyState
 
     private Vector3 targetPosition;
     private float currentInvestigateTime;
+    private float currentAttackCooldown;
+    public bool attackOnCooldown;
 
     public override void OnStateUpdate()
     {
         base.OnStateUpdate();
+
+        if (attackOnCooldown)
+        {
+            currentAttackCooldown += Time.deltaTime;
+            if(currentAttackCooldown >= attackCooldown)
+            {
+                attackOnCooldown = false;
+            }
+        }
 
         if(esm.eyes.activeTarget != null)
         {
@@ -33,6 +46,11 @@ public class EnemyAgroState : EnemyState
             Vector3 targetDir = (targetPosition - esm.transform.position).normalized;
 
             esm.currentLookAngle = Mathf.Atan2(targetDir.x, targetDir.z) * Mathf.Rad2Deg;
+
+            if(esm.eyes.distanceToTarget <= attackDistance && !attackOnCooldown)
+            {
+                AttackRoll();
+            }
 
             if(Vector3.Distance(esm.transform.position, targetPosition) >= stopDistance)
             {
@@ -63,6 +81,15 @@ public class EnemyAgroState : EnemyState
         }
     }
 
+    public void AttackRoll()
+    {
+        if(Random.Range(0,100) <= attackProbability)
+        {
+            attackOnCooldown = true;
+            currentAttackCooldown = 0;
+            esm.TryChangeState(esm.attackState);
+        }
+    }
 
     public override void OnStateExit()
     {
