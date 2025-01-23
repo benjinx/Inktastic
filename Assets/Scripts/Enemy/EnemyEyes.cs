@@ -61,6 +61,7 @@ public class EnemyEyes : MonoBehaviour
         if (esm.GetCurrentState() != esm.deathState && _actor != null)
         {
             activeTarget = _actor;
+            esm.OnSpook();
         }
 
         //bark to other enemies

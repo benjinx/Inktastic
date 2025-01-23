@@ -34,7 +34,7 @@ public class EnemyStateMachine : BizarreTools.StateMachine.StateMachine
 
     public void OnSpook()
     {
-
+        ChangeState(agroState);
     }
 
     private void Update()
