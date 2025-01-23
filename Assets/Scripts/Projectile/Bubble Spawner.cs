@@ -29,8 +29,6 @@ public class BubbleSpawner : MonoBehaviour
         {
             spawned = true;
 
-            Quaternion rotation = transform.rotation;
-
             Vector3 position1 = transform.position + new Vector3(0.5f, 0.0f, 0.0f);
             Quaternion rotation1 = Quaternion.Euler(Vector3.up * 90.0f);
             pooler.SpawnFromPool("bubbles", position1, rotation1);
@@ -47,7 +45,6 @@ public class BubbleSpawner : MonoBehaviour
             Quaternion rotation4 = Quaternion.Euler(Vector3.up * 180.0f);
             pooler.SpawnFromPool("bubbles", position4, rotation4);
         }
-
     }
 
     void SpawnObjects()
