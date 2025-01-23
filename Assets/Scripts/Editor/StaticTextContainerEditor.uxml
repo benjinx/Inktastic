@@ -1,0 +1,10 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <engine:MultiColumnListView name="view" data-source-type="StaticTextContainer, Assembly-CSharp" data-source-path="entries">
+        <engine:Columns>
+            <engine:Column name="key" title="Key" sortable="false" min-width="70px" binding-path="KeyInternal" />
+            <engine:Column name="hash" title="Internal Hash" binding-path="Hash" min-width="150px" sortable="false" />
+            <engine:Column name="text" title="Text" binding-path="Data" min-width="200px" sortable="false" />
+        </engine:Columns>
+    </engine:MultiColumnListView>
+    <engine:Button text="Sort Data" name="sort" />
+</engine:UXML>
