@@ -7,7 +7,7 @@ public static class GameplayStates
     private static event GameFinishedHandler _OnGameFinished;
     private static event GamePausedHandler _OnGamePaused;
 
-    private static event GamePausedHandler OnGamePaused {
+    public static event GamePausedHandler OnGamePaused {
         add
         {
             _OnGamePaused -= value;
