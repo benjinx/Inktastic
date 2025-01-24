@@ -70,6 +70,11 @@ public class CombatHandler : GameplayBehaviour
             PlayerStateMachine psm = GetComponent<PlayerStateMachine>();
             psm.ChangeState(psm.deathState);
         }
+
+        if(GetComponent<EnemyStateMachine>() != null)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     public void InitializeHitboxes()
