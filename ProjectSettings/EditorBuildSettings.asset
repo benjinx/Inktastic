@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Tomas/TomasTest.unity
+    guid: 7c49c7cd4c9d5fc418084309379d4603
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: d4df1ca1dfe8e764d9acb9a4c054cc66
   - enabled: 1

@@ -12,6 +12,12 @@ public class EnemyPatrolState : EnemyState
     private float currentSearchTime;
     private float currentSearchDistance;
 
+    public override void OnStateEnter()
+    {
+        base.OnStateEnter();
+        PickNewPatrolAngle();
+    }
+
     public override void OnStateUpdate()
     {
         base.OnStateUpdate();

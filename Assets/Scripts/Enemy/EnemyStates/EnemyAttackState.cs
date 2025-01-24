@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using static UnityEditor.PlayerSettings;
 
 [System.Serializable]
 public class EnemyAttackState : EnemyState

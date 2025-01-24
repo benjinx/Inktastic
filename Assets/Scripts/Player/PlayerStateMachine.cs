@@ -6,6 +6,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerControllerState controllerState;
     public PlayerDodgeState dodgeState;
     public PlayerAttackState attackState;
+    public PlayerStunState stunState;
     public PlayerDeathState deathState;
 
     private void Start()
@@ -19,6 +20,7 @@ public class PlayerStateMachine : StateMachine
         controllerState.cCon = GetComponent<CharacterController>();
         dodgeState.psm = this;
         attackState.psm = this;
+        stunState.psm = this;
         deathState.psm = this;
 
         DefineTransition(controllerState, dodgeState);

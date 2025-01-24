@@ -78,6 +78,7 @@ public class Hitbox : MonoBehaviour
                         //take damage
                         //add to already hit
                         hitbox.combat.TakeDamage(damage);
+                        alreadyHit.Add(hitbox.combat);
                     }
                 }
             }

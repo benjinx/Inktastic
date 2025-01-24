@@ -14,7 +14,18 @@ public class PlayerAttackState : PlayerDodgeState
     {
         onAttack?.Invoke();
         attackHitbox.ActivateHitbox(attackDuration, damage);
-        dashDirection = Quaternion.Euler(0, psm.controllerState.currentLookAngle, 0) * Vector3.forward;
+
+        if (psm.controllerState.currentPlayerVelocity.magnitude >= 0.1)
+        {
+            dashDirection = psm.controllerState.currentPlayerVelocity.normalized;
+            psm.controllerState.currentLookAngle = Mathf.Atan2(dashDirection.x, dashDirection.z);
+        }
+        else
+        {
+            //if zero use aim direction
+            dashDirection = Quaternion.Euler(0, psm.controllerState.currentLookAngle, 0) * Vector3.forward;
+        }
+
         attackParent.transform.forward = dashDirection;
         //spearSprite.SetActive(true);
     }
