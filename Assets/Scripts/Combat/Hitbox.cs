@@ -76,6 +76,7 @@ public class Hitbox : GameplayBehaviour
                         //take damage
                         //add to already hit
                         hitbox.combat.TakeDamage(damage);
+                        combat.hitSuccess?.Invoke();
                         alreadyHit.Add(hitbox.combat);
                     }
                 }

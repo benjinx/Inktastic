@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class CombatHandler : GameplayBehaviour
     public float flashColorDuration;
 
     public SpriteRenderer actorRenderer;
+    public Action hitSuccess;
 
     private List<Hitbox> hitboxes = new List<Hitbox>();
     private bool colorFlashing;

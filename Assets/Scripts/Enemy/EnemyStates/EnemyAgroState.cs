@@ -16,6 +16,21 @@ public class EnemyAgroState : EnemyState
     private float currentInvestigateTime;
     private float currentAttackCooldown;
     public bool attackOnCooldown;
+    public float hangBackMaxDistance;
+    public float hangBackMinDistance;
+    public float circleSwitchCooldown = 3f; // Time between direction switches
+    private float currentCircleSwitchTime = 0f;
+    private int circleDirection = 1; // 1 for clockwise, -1 for counterclockwise
+
+
+    public MoveObjective moveObjective;
+
+    public enum MoveObjective
+    {
+        Rush,
+        HangBack,
+        Stationary
+    }
 
     public override void OnStateUpdate()
     {
@@ -24,22 +39,22 @@ public class EnemyAgroState : EnemyState
         if (attackOnCooldown)
         {
             currentAttackCooldown += Time.deltaTime;
-            if(currentAttackCooldown >= attackCooldown)
+            if (currentAttackCooldown >= attackCooldown)
             {
                 attackOnCooldown = false;
             }
         }
 
-        if(esm.eyes.activeTarget != null)
+        if (esm.eyes.activeTarget != null)
         {
             if (esm.eyes.canSeeCurrentTarget)
             {
-                //chase the enemy
+                // Set target to current enemy position
                 targetPosition = esm.eyes.activeTarget.transform.position;
             }
             else
             {
-                //go toward the enemy's last known position
+                // Go to last known position
                 targetPosition = esm.eyes.lastSeenPos;
             }
 
@@ -47,32 +62,19 @@ public class EnemyAgroState : EnemyState
 
             esm.currentLookAngle = Mathf.Atan2(targetDir.x, targetDir.z) * Mathf.Rad2Deg;
 
-            if(esm.eyes.distanceToTarget <= attackDistance && !attackOnCooldown)
+            switch (moveObjective)
             {
-                AttackRoll();
-            }
+                case MoveObjective.Rush:
+                    HandleRush(targetDir);
+                    break;
 
-            if(Vector3.Distance(esm.transform.position, targetPosition) >= stopDistance)
-            {
-                esm.cCon.Move(targetDir * agroSpeed * Time.deltaTime);
+                case MoveObjective.HangBack:
+                    HandleHangBack(targetDir);
+                    break;
 
-            }
-            //if we've reached our last known target position, wait a bit before we decide to go back into patroling
-            else
-            {
-                if (!esm.eyes.canSeeCurrentTarget)
-                {
-                    currentInvestigateTime += Time.deltaTime;
-
-                    if(currentInvestigateTime >= investigateTime)
-                    {
-                        esm.ChangeState(esm.patrolState);
-                    }
-                }
-                else
-                {
-                    currentInvestigateTime = 0;
-                }
+                case MoveObjective.Stationary:
+                    HandleStationary();
+                    break;
             }
         }
         else
@@ -81,7 +83,85 @@ public class EnemyAgroState : EnemyState
         }
     }
 
-    public void AttackRoll()
+    // Rush behavior
+    private void HandleRush(Vector3 targetDir)
+    {
+        if (esm.eyes.distanceToTarget <= attackDistance && !attackOnCooldown)
+        {
+            AttackCheck();
+        }
+
+        if (Vector3.Distance(esm.transform.position, targetPosition) >= stopDistance)
+        {
+            esm.cCon.Move(targetDir * agroSpeed * Time.deltaTime);
+        }
+        else if (!esm.eyes.canSeeCurrentTarget)
+        {
+            HandleInvestigate();
+        }
+    }
+
+    // HangBack behavior
+    private void HandleHangBack(Vector3 targetDir)
+    {
+        float distanceToTarget = Vector3.Distance(esm.transform.position, targetPosition);
+
+        // Maintain a desired distance
+        if (distanceToTarget < hangBackMinDistance)
+        {
+            // Move away from the player
+            Vector3 moveDir = -(targetPosition - esm.transform.position).normalized;
+            esm.cCon.Move(moveDir * agroSpeed * Time.deltaTime);
+        }
+        else if (distanceToTarget > hangBackMaxDistance)
+        {
+            // Move closer to maintain distance
+            esm.cCon.Move(targetDir * agroSpeed * Time.deltaTime);
+        }
+
+        // Update circle direction randomly over time
+        currentCircleSwitchTime += Time.deltaTime;
+        if (currentCircleSwitchTime >= circleSwitchCooldown)
+        {
+            currentCircleSwitchTime = 0f;
+            circleDirection = Random.value > 0.5f ? 1 : -1; // Randomly pick 1 or -1
+        }
+
+        // Circle around the player
+        Vector3 circleDir = Quaternion.Euler(0, circleDirection * 90, 0) * targetDir; // Rotate the targetDir vector
+        esm.cCon.Move(circleDir * agroSpeed * Time.deltaTime);
+
+        if (distanceToTarget <= attackDistance && !attackOnCooldown)
+        {
+            AttackCheck();
+        }
+    }
+
+    // Stationary behavior
+    private void HandleStationary()
+    {
+        if (esm.eyes.distanceToTarget <= attackDistance && !attackOnCooldown)
+        {
+            AttackCheck();
+        }
+    }
+
+    // Investigate behavior when losing sight of the target
+    private void HandleInvestigate()
+    {
+        currentInvestigateTime += Time.deltaTime;
+
+        if (currentInvestigateTime >= investigateTime)
+        {
+            esm.ChangeState(esm.patrolState);
+        }
+        else
+        {
+            currentInvestigateTime = 0;
+        }
+    }
+
+    public void AttackCheck()
     {
         if(Random.Range(0,100) <= attackProbability)
         {
