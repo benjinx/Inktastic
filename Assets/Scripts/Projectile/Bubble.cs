@@ -18,9 +18,8 @@ public class Bubble : GameplayBehaviour
 
     public Transform target;
 
-    protected override void OnEnable()
+    private void OnEnable()
     {
-        base.OnEnable();
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         rb.isKinematic = false;

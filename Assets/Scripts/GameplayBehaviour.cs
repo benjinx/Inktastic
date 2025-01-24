@@ -13,6 +13,12 @@ public abstract class GameplayBehaviour : MonoBehaviour
 {
     public UpdateFlags UpdateFlags = (UpdateFlags)~0;
 
+    [Obsolete("Do not use if you want to disable the component's update, use the UpdateFlags instead.")]
+    public new bool enabled {
+        get => base.enabled;
+        set => base.enabled = value;
+    }
+
     public void PerformUpdate()
     {
         if ((UpdateFlags & UpdateFlags.Update) > 0)
@@ -37,12 +43,12 @@ public abstract class GameplayBehaviour : MonoBehaviour
         }
     }
 
-    protected virtual void OnEnable()
+    protected virtual void Awake()
     {
         GameplayBehaviourManager.Register(this);
     }
 
-    protected virtual void OnDisable()
+    protected virtual void OnDestroy()
     {
         GameplayBehaviourManager.Unregister(this);
     }

@@ -16,8 +16,9 @@ public class PlayerInputHandler : GameplayBehaviour
     private InputAction attackAction;
 
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         psm = GetComponent<PlayerStateMachine>();
     }
 
@@ -38,8 +39,9 @@ public class PlayerInputHandler : GameplayBehaviour
 
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
         InputSystem.onEvent -= OnInputEvent;
     }
 

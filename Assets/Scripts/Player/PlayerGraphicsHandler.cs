@@ -25,8 +25,9 @@ public class PlayerGraphicsHandler : GameplayBehaviour
     private bool moving;
     private bool movingOpposite;
 
-    public void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         psm = GetComponent<PlayerStateMachine>();
         ogGraphicPos = graphicParent.transform.localPosition;
     }

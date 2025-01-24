@@ -20,6 +20,54 @@ class GameplayBehaviourManager : MonoBehaviour
     private static readonly List<GameplayBehaviour> OnUpdates = new List<GameplayBehaviour>();
     private static readonly List<GameplayBehaviour> OnFixedUpdates = new List<GameplayBehaviour>();
     private static readonly List<GameplayBehaviour> OnLateUpdates = new List<GameplayBehaviour>();
+    // private static readonly Dictionary<GameplayBehaviour, UpdateFlags> GameplayBehaviourFlags = new Dictionary<GameplayBehaviour, UpdateFlags>();
+
+    private static void Pause(IReadOnlyList<GameplayBehaviour> behaviours, UpdateFlags flag)
+    {
+        foreach (var behaviour in behaviours)
+        {
+            behaviour.UpdateFlags &= ~flag;
+        }
+    }
+
+    private static void Pause(UpdateFlags flag)
+    {
+        foreach (var f in Flags)
+        {
+            if ((f & flag) > 0)
+            {
+                var list = (IReadOnlyList<GameplayBehaviour>)(f switch {
+                    UpdateFlags.Update => OnUpdates,
+                    UpdateFlags.FixedUpdate => OnFixedUpdates,
+                    UpdateFlags.LateUpdate => OnLateUpdates,
+                    _ => Array.Empty<GameplayBehaviour>(),
+                });
+                Pause(list, f);
+            }
+        }
+    }
+
+    private static void Resume(IReadOnlyList<GameplayBehaviour> behaviours, UpdateFlags flag)
+    {
+        foreach (var behaviour in behaviours)
+        {
+            behaviour.UpdateFlags |= flag;
+        }
+    }
+
+    public static void PauseAll()
+    {
+        Pause(OnUpdates, UpdateFlags.Update);
+        Pause(OnFixedUpdates, UpdateFlags.FixedUpdate);
+        Pause(OnLateUpdates, UpdateFlags.LateUpdate);
+    }
+
+    public static void ResumeAll()
+    {
+        Resume(OnUpdates, UpdateFlags.Update);
+        Resume(OnFixedUpdates, UpdateFlags.FixedUpdate);
+        Resume(OnLateUpdates, UpdateFlags.LateUpdate);
+    }
 
     public static void Register(GameplayBehaviour behaviour)
     {
@@ -55,6 +103,7 @@ class GameplayBehaviourManager : MonoBehaviour
         OnUpdates.Clear();
         OnLateUpdates.Clear();
         OnFixedUpdates.Clear();
+        // GameplayBehaviourFlags.Clear();
     }
 
     private void OnDestroy()
@@ -62,6 +111,7 @@ class GameplayBehaviourManager : MonoBehaviour
         OnUpdates.Clear();
         OnLateUpdates.Clear();
         OnFixedUpdates.Clear();
+        // GameplayBehaviourFlags.Clear();
     }
 
     private void Update() {

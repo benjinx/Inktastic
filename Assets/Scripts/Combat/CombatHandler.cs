@@ -19,8 +19,9 @@ public class CombatHandler : GameplayBehaviour
 
     private bool dead;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         InitializeHitboxes();
 
         originalEmissionColor = actorRenderer.material.GetColor("_Color");
