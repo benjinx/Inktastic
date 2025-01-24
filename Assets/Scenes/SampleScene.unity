@@ -152,6 +152,11 @@ MonoBehaviour:
   sceneSet: {fileID: 11400000, guid: 30452cb373cce6843a4ee5a1012a367f, type: 2}
   visible: 0
   inputAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  textContainer: {fileID: 11400000, guid: a25ca6abc4fb7384eab03bcce2f5204d, type: 2}
+  messages:
+  - You lose!
+  - You win!
+  - You win!
 --- !u!4 &310524651
 Transform:
   m_ObjectHideFlags: 0
