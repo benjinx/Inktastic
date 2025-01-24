@@ -40,7 +40,7 @@ public class EnemyStateMachine : BizarreTools.StateMachine.StateMachine
         ChangeState(agroState);
     }
 
-    private void Update()
+    protected override void OnUpdate()
     {
         UpdateState();
 

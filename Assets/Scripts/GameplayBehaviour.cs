@@ -42,6 +42,11 @@ public abstract class GameplayBehaviour : MonoBehaviour
         GameplayBehaviourManager.Register(this);
     }
 
+    protected virtual void OnDisable()
+    {
+        GameplayBehaviourManager.Unregister(this);
+    }
+
     protected virtual void OnUpdate()
     {
     }

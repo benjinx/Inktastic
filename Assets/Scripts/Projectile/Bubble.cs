@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Bubble : MonoBehaviour
+public class Bubble : GameplayBehaviour
 {
     // Default is just a standard bullet
     // Tracking will track the target
@@ -18,14 +18,15 @@ public class Bubble : MonoBehaviour
 
     public Transform target;
 
-    void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         rb.isKinematic = false;
     }
 
-    void Update()
+    protected override void OnUpdate()
     {
         switch (mode)
         {

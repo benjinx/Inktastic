@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerGraphicsHandler : MonoBehaviour
+public class PlayerGraphicsHandler : GameplayBehaviour
 {
     public Transform graphicParent;
     public SpriteRenderer spriteRenderer;
@@ -31,14 +31,12 @@ public class PlayerGraphicsHandler : MonoBehaviour
         ogGraphicPos = graphicParent.transform.localPosition;
     }
 
-    private void Update()
+    protected override void OnUpdate()
     {
         HandleSpriteDirection();
         HandleGraphicFloat();
         MovementCheck();
     }
-
-
 
     public void MovementCheck()
     {

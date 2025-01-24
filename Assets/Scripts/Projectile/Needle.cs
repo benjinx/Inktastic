@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Needle : MonoBehaviour
+public class Needle : GameplayBehaviour 
 {
     public Transform floatTarget;
 
@@ -24,7 +24,7 @@ public class Needle : MonoBehaviour
         seedZ = Random.Range(0.0f, 100.0f);
     }
 
-    void Update()
+    protected override void OnUpdate()
     {
         if (isFloating)
         {

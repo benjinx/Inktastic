@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 
-public class PlayerInputHandler : MonoBehaviour
+public class PlayerInputHandler : GameplayBehaviour
 {
     public PlayerStateMachine psm;
     public bool gamePad;
@@ -76,7 +76,7 @@ public class PlayerInputHandler : MonoBehaviour
         }
     }
 
-    private void Update()
+    protected override void OnUpdate()
     {
         psm.controllerState.UpdatePlayerMovement(moveAction.ReadValue<Vector2>().normalized);
 

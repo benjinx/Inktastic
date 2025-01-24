@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace BizarreTools.StateMachine
 {
-    public abstract class StateMachine: MonoBehaviour
+    public abstract class StateMachine : GameplayBehaviour
     {
         private IState currentState;
 

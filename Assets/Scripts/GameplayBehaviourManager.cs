@@ -5,7 +5,7 @@ using UnityEngine;
 
 class GameplayBehaviourManager : MonoBehaviour
 {
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
     {
         var go = new GameObject(nameof(GameplayBehaviourManager))

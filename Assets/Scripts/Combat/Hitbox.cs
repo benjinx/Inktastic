@@ -2,10 +2,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Splines;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
-public class Hitbox : MonoBehaviour
+public class Hitbox : GameplayBehaviour
 {
     public bool attacking;
     public SplineContainer movementSpline;
@@ -51,7 +49,7 @@ public class Hitbox : MonoBehaviour
     }
 
 
-    public void Update()
+    protected override void OnUpdate()
     {
         if (isActive)
         {

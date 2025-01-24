@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7877e0ba13b4785409711d5bf331bfb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: 1
   floatTarget: {fileID: 0}
   floatRadius: 0.1
-  speed: 0.5
+  floatSpeed: 0.5
+  projectileSpeed: 2

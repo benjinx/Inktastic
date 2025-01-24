@@ -187,6 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be9b12c557a4654c990976a0d001c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: -1
   attacking: 1
   movementSpline: {fileID: 289800798947938807}
   alreadyHit: []
@@ -272,6 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5de4a35478897c40865891b1fbbf317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: 1
   maxHealth: 100
   currentHealth: 100
   hitMask:
@@ -293,6 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e472dcdba15cbe46ab05b0da762e000, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: 1
   debugState: 
   patrolState:
     esm: {fileID: 0}
@@ -698,6 +701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be9b12c557a4654c990976a0d001c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: -1
   attacking: 0
   movementSpline: {fileID: 0}
   alreadyHit: []

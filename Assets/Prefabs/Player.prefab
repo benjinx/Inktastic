@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be9b12c557a4654c990976a0d001c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: -1
   attacking: 1
   movementSpline: {fileID: 3815737169424333690}
   alreadyHit: []
@@ -385,6 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a94be2f57cec646957a11de90a50ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: 1
   debugState: 
   controllerState:
     psm: {fileID: 0}
@@ -515,6 +517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be489b83147a36c48b64ca9b0c83730e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: 1
   psm: {fileID: 0}
   gamePad: 0
 --- !u!114 &3854040018868928097
@@ -529,6 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0aa1720ce3e4f3428560ad7435afa91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: 1
   graphicParent: {fileID: 4618850461362752239}
   spriteRenderer: {fileID: 327772624071162333}
   idleSet:
@@ -601,6 +605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5de4a35478897c40865891b1fbbf317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: 0
   maxHealth: 100
   currentHealth: 0
   hitMask:
@@ -862,6 +867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7be9b12c557a4654c990976a0d001c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: -1
   attacking: 0
   movementSpline: {fileID: 0}
   alreadyHit: []
