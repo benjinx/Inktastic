@@ -49,10 +49,10 @@ public class EnemyEyes : MonoBehaviour
             {
                 //eyePointer.transform.position = activeTarget.GetComponent<TargetObject>().aimPosition.position;
             }
-           /* if (activeTarget.dead)
+            if (activeTarget.GetCurrentState() == activeTarget.deathState)
             {
                 activeTarget = null;
-            }*/
+            }
         }
     }
 

@@ -5,6 +5,7 @@ using UnityEngine.Events;
 public class PlayerDeathState : PlayerState
 {
     public UnityEvent onDeath;
+    //play an explosion after a little bit, restart the scene
 
     public override void OnStateEnter()
     {

@@ -18,23 +18,59 @@ public class CombatHandler : MonoBehaviour
     private bool colorFlashing;
     private Color originalEmissionColor;
 
+    private bool dead;
+
     private void Awake()
     {
         InitializeHitboxes();
 
         originalEmissionColor = actorRenderer.material.GetColor("_Color");
+        currentHealth = maxHealth;
     }
 
     public void TakeDamage(float _damage)
     {
+        if (dead)
+        {
+            return;
+        }
+
+        if(GetComponent<PlayerStateMachine>() != null)
+        {
+            PlayerStateMachine psm = GetComponent<PlayerStateMachine>();
+            PlayerState state = psm.GetCurrentState() as PlayerState;
+
+            if(state == psm.dodgeState || state == psm.stunState)
+            {
+                return;
+            }
+            else
+            {
+                psm.ChangeState(psm.stunState);
+            }
+        }
+
+
         currentHealth -= _damage;
+        Debug.Log("OUCH");
         FlashMaterial(actorRenderer.material, Color.red, flashColorDuration);
-        //call either enemy or player graphics handler and do temp hit
+        
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
+
     }
 
     public void Die()
     {
+        dead = true;
 
+        if (GetComponent<PlayerStateMachine>() != null)
+        {
+            PlayerStateMachine psm = GetComponent<PlayerStateMachine>();
+            psm.ChangeState(psm.deathState);
+        }
     }
 
     public void InitializeHitboxes()
