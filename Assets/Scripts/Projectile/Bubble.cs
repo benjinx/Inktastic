@@ -10,7 +10,7 @@ public class Bubble : GameplayBehaviour
     [HideInInspector]
     public Mode mode = Mode.Default;
 
-    public float speed = 0.1f;
+    public float speed = 0.2f;
 
     public float bubbleWabbleVarience = 0.5f;
 

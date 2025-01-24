@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss : MonoBehaviour
+public class Boss : GameplayBehaviour
 {
     enum Phase { None, One, Two, Three, Four };
 
@@ -16,15 +16,23 @@ public class Boss : MonoBehaviour
 
     private float currentTime = 0.0f;
 
-    private float timeToSpawn = 3.0f;
+    private float phaseOneTimeToSpawn = 3.0f;
+
+    private float phaseTwoTimeToSpawn = 1.0f;
+
+    private float spinTime = 0.0f;
 
     public Transform player;
+
+    private GameObject parentObject;
+
+    private bool parentFound = false;
 
     void Start()
     {
         pooler = GetComponent<ObjectPooler>();
 
-        phase = Phase.One;
+        phase = Phase.Two;
     }
 
     void Update()
@@ -39,7 +47,7 @@ public class Boss : MonoBehaviour
 
                 currentTime += Time.deltaTime;
 
-                if (currentTime >= timeToSpawn)
+                if (currentTime >= phaseOneTimeToSpawn)
                 {
                     currentTime = 0.0f;
 
@@ -73,9 +81,71 @@ public class Boss : MonoBehaviour
 
                 break;
             case Phase.Two:
-                // Shoot projectiles in a cross shape formation that eventually rotates around the boss
-                // - Same as our demo, shoot in all 4
-                // - Turn and twist somewhat randomly the "spawn points" of the balls
+                // Get proper parent, should only need to do it once
+                if (!parentFound)
+                {
+                    if (parentObject == null)
+                    {
+                        parentObject = new GameObject("Parent Object");
+                        parentObject.transform.position = transform.position;
+                        parentFound = true;
+                    }
+                }
+
+                float spinRate = 25.0f;
+
+                spinTime += Time.deltaTime;
+
+                if (spinTime >= 10.0f)
+                {
+                    spinTime = 0.0f;
+
+                    spinRate *= -1;
+                }
+                
+                parentObject.transform.Rotate(0, spinRate * Time.deltaTime, 0);
+
+                // After x amount of time, reverse the spin
+
+                currentTime += Time.deltaTime;
+
+                if (currentTime >= phaseTwoTimeToSpawn)
+                {
+                    currentTime = 0.0f;
+
+                    Vector3 positionRight = transform.position + new Vector3(2.0f, 0.0f, 0.0f);
+                    Quaternion rotationRight = Quaternion.Euler(Vector3.up * 90.0f);
+                    GameObject rightBubble = pooler.SpawnFromPool("bubbles", positionRight, rotationRight);
+                    rightBubble.transform.parent = parentObject.transform;
+
+                    Vector3 positionLeft = transform.position + new Vector3(-2.0f, 0.0f, 0.0f);
+                    Quaternion rotationLeft = Quaternion.Euler(Vector3.up * 270.0f);
+                    GameObject leftBubble = pooler.SpawnFromPool("bubbles", positionLeft, rotationLeft);
+                    leftBubble.transform.parent = parentObject.transform;
+
+                    Vector3 positionForward = transform.position + new Vector3(0f, 0.0f, 2.0f);
+                    Quaternion rotationForward = Quaternion.Euler(Vector3.up * 0);
+                    GameObject forwardBubble = pooler.SpawnFromPool("bubbles", positionForward, rotationForward);
+                    forwardBubble.transform.parent = parentObject.transform;
+
+                    Vector3 positionBackward = transform.position + new Vector3(0f, 0.0f, -2.0f);
+                    Quaternion rotationBackward = Quaternion.Euler(Vector3.up * 180.0f);
+                    GameObject backwardBubble = pooler.SpawnFromPool("bubbles", positionBackward, rotationBackward);
+                    backwardBubble.transform.parent = parentObject.transform;
+
+                    activeBubbles.Add(rightBubble);
+                    activeBubbles.Add(leftBubble);
+                    activeBubbles.Add(forwardBubble);
+                    activeBubbles.Add(backwardBubble);
+
+                    int deleteTime = 8;
+
+                    Invoke(nameof(DespawnBubble), deleteTime);
+                    Invoke(nameof(DespawnBubble), deleteTime);
+                    Invoke(nameof(DespawnBubble), deleteTime);
+                    Invoke(nameof(DespawnBubble), deleteTime);
+                }
+
                 break;
             case Phase.Three:
                 // Shoot projectiles that create pathways in the negative space that the player must weave through
@@ -99,6 +169,12 @@ public class Boss : MonoBehaviour
         // Valid to delete
         if (activeBubbles.Count > 0)
         {
+            // Reparent if need be
+            if (activeBubbles[0].transform.parent != transform)
+            {
+                activeBubbles[0].transform.parent = transform;
+            }
+
             // Just remove the first
             activeBubbles[0].GetComponent<Bubble>().Despawn();
             activeBubbles.Remove(activeBubbles[0]);
