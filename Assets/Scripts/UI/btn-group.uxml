@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/UI/common.uss?fileID=7433441132597879392&amp;guid=d750e8c839e85654ca29b2ce5b9cd440&amp;type=3#common" />
+    <ui:VisualElement name="btn-group" style="flex-direction: row-reverse;">
+        <ui:Button text="Play" name="btn" class="title-medium transparent-bg-border" style="-unity-font-definition: url(&quot;project://database/Assets/Data/Syncopate/Syncopate-Regular.ttf?fileID=12800000&amp;guid=b900725ecdc1e724e916c82b0c7e0279&amp;type=3#Syncopate-Regular&quot;); margin-top: 0; margin-bottom: 0; background-color: rgba(0, 0, 0, 0);" />
+        <ui:VisualElement name="pointer" class="transparent-img" style="flex-grow: 0; background-image: url(&quot;project://database/Assets/Textures/title_pointer_icon.png?fileID=2800000&amp;guid=8b6b35fdd2df3314f8a35b5e12f1505b&amp;type=3#title_pointer_icon&quot;); width: 256px; height: 50px; visibility: visible;" />
+    </ui:VisualElement>
+</ui:UXML>

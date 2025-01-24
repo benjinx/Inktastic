@@ -1,8 +1,9 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="btn-group" src="project://database/Assets/Scripts/UI/btn-group.uxml?fileID=9197481963319205126&amp;guid=8d2eae0d99e5e294d91ad9a37ca9c61f&amp;type=3#btn-group" />
     <Style src="project://database/Assets/Scripts/UI/common.uss?fileID=7433441132597879392&amp;guid=d750e8c839e85654ca29b2ce5b9cd440&amp;type=3#common" />
-    <ui:VisualElement class="fullscreen-background" />
-    <ui:Label text="Inktastic" name="title" class="title-centered title-large" style="width: 30%;" />
-    <ui:Button text="Play" name="play" class="title-centered title-medium" />
-    <ui:Button text="Credits" name="credits" class="title-centered title-medium" />
-    <ui:Button text="Quit" name="quit" class="title-centered title-medium" />
+    <ui:VisualElement class="fullscreen-background" style="background-image: url(&quot;project://database/Assets/Textures/ggj25_title_bg.jpg?fileID=2800000&amp;guid=aa58d83d4e5d9274296e42b37de06f7c&amp;type=3#ggj25_title_bg&quot;);" />
+    <ui:Label text="Inktastic" name="title" class="title-large title-right" style="width: 30%; -unity-font-definition: url(&quot;project://database/Assets/Data/Syncopate/Syncopate-Bold.ttf?fileID=12800000&amp;guid=55bb39133ab46c2419fee83e3914ba67&amp;type=3#Syncopate-Bold&quot;); -unity-font-style: normal;" />
+    <ui:Instance template="btn-group" name="play-group" class="title-right" style="flex-direction: row-reverse;" />
+    <ui:Instance template="btn-group" name="credit-group" class="title-right" style="flex-direction: row-reverse;" />
+    <ui:Instance template="btn-group" name="quit-group" class="title-right" style="flex-direction: row-reverse;" />
 </ui:UXML>

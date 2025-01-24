@@ -1,3 +1,5 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
@@ -14,11 +16,63 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         this.document = GetComponent<UIDocument>();
-        var playBtn = document.rootVisualElement.Q<Button>(UIIdentifiers.play);
-        playBtn.RegisterCallback<MouseUpEvent>(async _ =>
+        var root = document.rootVisualElement;
+
+        ProcessButtonGroup(root, "play-group", (img, btn) =>
         {
-            await SceneOperations.LoadScenes(sceneSet.SceneLoadIndices, () => Debug.Log("Finished load"));
-            await SceneOperations.UnloadScenes(sceneSet.SceneUnloadIndices, () => Debug.Log("Finished unload"));
+            btn.RegisterCallback<MouseUpEvent>(async _ =>
+            {
+                await SceneOperations.LoadScenes(sceneSet.SceneLoadIndices, () => Debug.Log("Finished load"));
+                await SceneOperations.UnloadScenes(sceneSet.SceneUnloadIndices, () => Debug.Log("Finished unload"));
+            });
+
+            img.RegisterCallback<MouseUpEvent>(async _ =>
+            {
+                await SceneOperations.LoadScenes(sceneSet.SceneLoadIndices, () => Debug.Log("Finished load"));
+                await SceneOperations.UnloadScenes(sceneSet.SceneUnloadIndices, () => Debug.Log("Finished unload"));
+            });
+
+            AttachCommonCallbacks(img, img);
+            AttachCommonCallbacks(btn, img);
         });
+
+        ProcessButtonGroup(root, "credit-group", (img, btn) =>
+        {
+            btn.text = "Credits";
+            AttachCommonCallbacks(img, img);
+            AttachCommonCallbacks(btn, img);
+        });
+
+        ProcessButtonGroup(root, "quit-group", (img, btn) =>
+        {
+            AttachCommonCallbacks(img, img);
+            AttachCommonCallbacks(btn, img);
+            btn.text = "Quit";
+            btn.RegisterCallback<MouseUpEvent>(_ =>
+            {
+                Application.Quit();
+            });
+        });
+    }
+
+    private static void AttachCommonCallbacks(VisualElement element, VisualElement target)
+    {
+        element.RegisterCallback<MouseEnterEvent>(_ =>
+        {
+            target.RemoveFromClassList("transparent-img");
+        });
+
+        element.RegisterCallback<MouseLeaveEvent>(_ =>
+        {
+            target.AddToClassList("transparent-img");
+        });
+    }
+
+    private static void ProcessButtonGroup(VisualElement root, string id, Action<VisualElement, Button> action)
+    {
+        var container = root.Q<TemplateContainer>(id);
+        var ptr = container.Q<VisualElement>("pointer");
+        var btn = container.Q<Button>("btn");
+        action?.Invoke(ptr, btn);
     }
 }

@@ -23,3 +23,35 @@
     -unity-text-align: upper-center;
     top: 35%;
 }
+
+.title-right {
+    align-items: center;
+    flex-direction: row;
+    align-self: flex-end;
+    align-content: auto;
+    width: 30%;
+    -unity-text-align: upper-right;
+    top: 35%;
+    right: 5%;
+}
+
+.transparent-bg-border {
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
+    background-color: rgba(0, 0, 0, 0);
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+}
+
+.unity-button {
+}
+
+.hidden {
+    display: none;
+}
+
+.transparent-img {
+    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
+    background-color: rgba(255, 255, 255, 0);
+}
