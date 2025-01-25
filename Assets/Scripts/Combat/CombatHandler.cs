@@ -52,12 +52,19 @@ public class CombatHandler : GameplayBehaviour
             }
         }
 
-
         currentHealth -= _damage;
         Debug.Log("OUCH");
         FlashMaterial(actorRenderer.material, Color.red, flashColorDuration);
-        
-        if(currentHealth <= 0)
+
+        if (transform.tag == "Boss")
+        {
+            // Update boss health bar
+            float normalizedHealth = (float)currentHealth / (float)maxHealth;
+
+            // Call porriths callback
+        }
+
+        if (currentHealth <= 0)
         {
             Die();
         }
