@@ -517,6 +517,12 @@ MonoBehaviour:
   UpdateFlags: 0
   bossName: MOLUSK HELM
   health: 0.5
+  playerHealthBinding:
+    RawValue: 0
+    Denominator: 100
+  ammoBinding:
+    RawValue: 0
+    Denominator: 100
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
