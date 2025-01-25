@@ -1,3 +1,4 @@
+// #define DEBUG
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -61,7 +62,7 @@ public class HUD : GameplayBehaviour
 
     protected override void Awake()
     {
-#if UNITY_EDITOR
+#if UNITY_EDITOR && DEBUG
         UpdateFlags = UpdateFlags.Update;
 #else
         UpdateFlags = 0;
@@ -88,11 +89,16 @@ public class HUD : GameplayBehaviour
     private void OnEnable()
     {
         GameplayStates.OnBossHealthDelta += OnBossHealthChange;
+        GameplayStates.OnPlayerAmmoDelta += OnPlayerAmmoChange;
+        GameplayStates.OnPlayerHealthDelta += OnPlayerHealthChange;
+
     }
 
     private void OnDisable()
     {
         GameplayStates.OnBossHealthDelta -= OnBossHealthChange;
+        GameplayStates.OnPlayerAmmoDelta -= OnPlayerAmmoChange;
+        GameplayStates.OnPlayerHealthDelta -= OnPlayerHealthChange;
     }
 
     private void OnBossHealthChange(float f)
@@ -100,12 +106,22 @@ public class HUD : GameplayBehaviour
         bossHealth.style.width = new StyleLength(new Length(f * 100f, LengthUnit.Percent));
     }
 
-#if UNITY_EDITOR
+    private void OnPlayerAmmoChange(int rawValue, int denominator)
+    {
+        ammoBinding.Update(rawValue, denominator);
+    }
+
+    private void OnPlayerHealthChange(int rawValue, int denominator)
+    {
+        playerHealthBinding.Update(rawValue, denominator);
+    }
+
+#if UNITY_EDITOR && DEBUG
     protected override void OnUpdate()
     {
-        bossHealth.style.width = new StyleLength(new Length(health * 100f, LengthUnit.Percent));
-        ammoBinding.Update(ammoBinding.RawValue, ammoBinding.Denominator);
-        playerHealthBinding.Update(playerHealthBinding.RawValue, playerHealthBinding.Denominator);
+        GameplayStates.ChangeBossHealth(health);
+        GameplayStates.ChangePlayerHealth(playerHealthBinding.RawValue, playerHealthBinding.Denominator);
+        GameplayStates.ChangePlayerAmmo(ammoBinding.RawValue, ammoBinding.Denominator);
     }
 #endif
 }

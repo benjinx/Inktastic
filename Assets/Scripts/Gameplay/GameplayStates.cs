@@ -92,7 +92,7 @@ public static class GameplayStates
 
     internal static void ChangeBossHealth(float f)
     {
-        Assert.IsTrue(f < 1f && f > 0f, "The value must be between 0 and 1.");
+        Assert.IsTrue(f <= 1f && f >= 0f, "The value must be between 0 and 1.");
         _BossHealthDelta?.Invoke(f);
     }
 
