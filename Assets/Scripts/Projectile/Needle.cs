@@ -17,6 +17,9 @@ public class Needle : GameplayBehaviour
 
     public float projectileSpeed = 2.0f;
 
+    [HideInInspector]
+    public bool isAvailable = true;
+
     void Start()
     {
         seedX = Random.Range(0.0f, 100.0f);
@@ -38,7 +41,7 @@ public class Needle : GameplayBehaviour
         }
 
         if (isShooting)
-        {            
+        {
             transform.rotation = Quaternion.Slerp(transform.rotation,
                 Quaternion.FromToRotation(Vector3.up, targetDirection),
                 5.0f * Time.deltaTime);
@@ -55,6 +58,8 @@ public class Needle : GameplayBehaviour
         isShooting = true;
 
         targetDirection = target;
+
+        isAvailable = false;
     }
 
     // Called when we hit the target
@@ -70,7 +75,7 @@ public class Needle : GameplayBehaviour
     // Despawn/disable spike
     private void Despawn()
     {
-        enabled = false;
+        gameObject.SetActive(false);
     }
 
     // Target has been asked to be reset above character
@@ -78,6 +83,8 @@ public class Needle : GameplayBehaviour
     {
         transform.position = floatTarget.position; // Move back to our anchor
         isFloating = true;
-        enabled = true;
+        gameObject.SetActive(true);
+
+        isAvailable = true;
     }
 }

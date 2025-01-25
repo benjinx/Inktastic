@@ -15,6 +15,8 @@ public class PlayerInputHandler : GameplayBehaviour
     private InputAction dodgeAction;
     private InputAction attackAction;
 
+    private bool hasShot = false;
+
 
     protected override void Awake()
     {
@@ -37,6 +39,9 @@ public class PlayerInputHandler : GameplayBehaviour
         dodgeAction.performed += HandleDodgeInput;
         attackAction.performed += HandleAttackInput;
 
+        controls.Player.Shoot.Enable();
+        controls.Player.Shoot.performed += HandleShootInput;
+        controls.Player.Shoot.canceled += _ => hasShot = false;
     }
 
     protected override void OnDestroy()
@@ -75,6 +80,15 @@ public class PlayerInputHandler : GameplayBehaviour
         if (obj.performed && psm.GetCurrentState() != psm.attackState && psm.GetCurrentState() != psm.dodgeState)
         {
             psm.TryChangeState(psm.attackState);
+        }
+    }
+
+    public void HandleShootInput(InputAction.CallbackContext obj)
+    {
+        if (!hasShot)
+        {
+            GetComponent<NeedleManager>().ShootProjectile();
+            hasShot = true;
         }
     }
 

@@ -37,10 +37,8 @@ public class Boss : GameplayBehaviour
         combatHandler = GetComponent<CombatHandler>();
     }
 
-    void Update()
+    protected override void OnUpdate()
     {
-        base.OnUpdate();
-
         float healthAsPercent = ((float)combatHandler.currentHealth / (float)combatHandler.maxHealth) * 100.0f;
 
         if (healthAsPercent <= 75.0f && !phaseTriggered[0])
