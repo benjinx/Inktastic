@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc27b364201c2824caf8c5e146623a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UpdateFlags: -1
   activeBubbles: []
   player: {fileID: 611969872}
 --- !u!212 &63945298

@@ -14,6 +14,8 @@ public class Bubble : GameplayBehaviour
 
     public float bubbleWabbleVarience = 0.5f;
 
+    public float trackingSpeed = 2.0f;
+
     private Rigidbody rb;
 
     public Transform target;
@@ -45,11 +47,7 @@ public class Bubble : GameplayBehaviour
 
                 Vector3 direction = (target.position - transform.position).normalized;
 
-                //float force = 0.05f;
-
-                float force = 2.0f;
-
-                rb.AddForce(direction * force, ForceMode.Force);
+                rb.AddForce(direction * trackingSpeed, ForceMode.Force);
                 break;
         }
     }

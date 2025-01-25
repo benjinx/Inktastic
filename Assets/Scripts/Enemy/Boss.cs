@@ -20,7 +20,9 @@ public class Boss : GameplayBehaviour
 
     private float phaseTwoTimeToSpawn = 1.0f;
 
-    private float spinTime = 0.0f;
+    private float phaseThreeTimeToSpawn = 1.0f;
+
+    private float phaseFourTimeToSpawn = 2.0f;
 
     public Transform player;
 
@@ -32,20 +34,25 @@ public class Boss : GameplayBehaviour
     {
         pooler = GetComponent<ObjectPooler>();
 
-        phase = Phase.Two;
+        phase = Phase.Three;
     }
 
     void Update()
     {
-        
+        // Each phase is per 25%
+        // P1 -> 100%
+        // P2 -> 75%
+        // P3 -> 50%
+        // P4 -> 25%
+
+        currentTime += Time.deltaTime;
+
         // Boss logic here
         switch (phase)
         {
             case Phase.None: // Nada
                 break;
             case Phase.One:
-
-                currentTime += Time.deltaTime;
 
                 if (currentTime >= phaseOneTimeToSpawn)
                 {
@@ -93,21 +100,8 @@ public class Boss : GameplayBehaviour
                 }
 
                 float spinRate = 25.0f;
-
-                spinTime += Time.deltaTime;
-
-                if (spinTime >= 10.0f)
-                {
-                    spinTime = 0.0f;
-
-                    spinRate *= -1;
-                }
                 
                 parentObject.transform.Rotate(0, spinRate * Time.deltaTime, 0);
-
-                // After x amount of time, reverse the spin
-
-                currentTime += Time.deltaTime;
 
                 if (currentTime >= phaseTwoTimeToSpawn)
                 {
@@ -152,14 +146,43 @@ public class Boss : GameplayBehaviour
                 // - Request amounts of balls and we need to do a flip flop pattern example:
                 // ---   ---   ---   ---
                 //    ---   ---   ---
+
+                if (currentTime >= phaseThreeTimeToSpawn)
+                {
+                    currentTime = 0;
+
+
+                }
+
                 break;
             case Phase.Four:
-                // Emit porjectiles in circular shockwaves that player must dash through with I-frames, example:
-                // -------
-                //        
-                // -------
-                //        
-                // Similar to P2 just more and more delay in them
+
+                if (currentTime >= phaseFourTimeToSpawn)
+                {
+                    currentTime = 0;
+
+                    int bubbleCount = 50;
+
+                    float angleStep = 360.0f / bubbleCount;
+
+                    for (int i = 0; i < bubbleCount; ++i)
+                    {
+                        float angle = i * angleStep;
+
+                        float spawnOffset = 6.0f;
+
+                        Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0.0f, Mathf.Sin(angle * Mathf.Deg2Rad));
+
+                        Quaternion rotation = Quaternion.LookRotation(direction);
+                        GameObject bubble = pooler.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
+                        bubble.GetComponent<Bubble>().speed = 1.0f;
+
+                        int deleteTime = 8;
+
+                        Invoke(nameof(DespawnBubble), deleteTime);
+                    }
+                }
+
                 break;
         }
     }
