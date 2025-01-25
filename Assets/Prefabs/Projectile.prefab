@@ -122,10 +122,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdab3ea6ca7c5ee4d8edf14dd34355e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpdateFlags: 1
+  UpdateFlags: 3
   mode: 0
   speed: 0.1
   bubbleWabbleVarience: 0.5
+  trackingSpeed: 2
   target: {fileID: 0}
 --- !u!54 &6993702716546007676
 Rigidbody:

@@ -27,8 +27,10 @@ public class Bubble : GameplayBehaviour
         rb.isKinematic = false;
     }
 
-    protected override void OnUpdate()
+    protected override void OnFixedUpdate()
     {
+        base.OnFixedUpdate();
+ 
         switch (mode)
         {
             case Mode.Default:
