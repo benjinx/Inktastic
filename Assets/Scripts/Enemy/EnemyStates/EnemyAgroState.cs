@@ -32,6 +32,19 @@ public class EnemyAgroState : EnemyState
         Stationary
     }
 
+    public override void OnStateEnter()
+    {
+        base.OnStateEnter();
+
+        if(esm.eyes.activeTarget != null)
+        {
+            Vector3 targetDir = (esm.eyes.activeTarget.transform.position - esm.transform.position).normalized;
+
+            esm.currentLookAngle = Mathf.Atan2(targetDir.x, targetDir.z) * Mathf.Rad2Deg;
+        }
+
+    }
+
     public override void OnStateUpdate()
     {
         base.OnStateUpdate();

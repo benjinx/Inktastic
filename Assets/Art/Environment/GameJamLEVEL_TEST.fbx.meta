@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: GameJam_EnvTexture 1
-    second: {fileID: 2100000, guid: 91bbae8246035fe4fa64e4f3d54d13da, type: 2}
+    second: {fileID: 2100000, guid: a0373a30773e234478c339fe144529c3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: GameJam_EnvTexture 2
-    second: {fileID: 2100000, guid: 91bbae8246035fe4fa64e4f3d54d13da, type: 2}
+    second: {fileID: 2100000, guid: 6b0b1833258e7c64497e609f80437dda, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -1,5 +1,6 @@
 using UnityEngine;
 using BizarreTools.StateMachine;
+using static UnityEditor.PlayerSettings;
 
 public class EnemyStateMachine : BizarreTools.StateMachine.StateMachine
 {
@@ -9,6 +10,7 @@ public class EnemyStateMachine : BizarreTools.StateMachine.StateMachine
     public EnemyStunState stunState;
     public EnemyDeathState deathState;
 
+    public SpriteRenderer actorSprite;
 
     public EnemyEyes eyes;
     public float currentLookAngle;
@@ -35,6 +37,11 @@ public class EnemyStateMachine : BizarreTools.StateMachine.StateMachine
         ChangeState(patrolState);
     }
 
+    public void HandleSpriteDirection()
+    {
+        actorSprite.flipX = currentLookAngle <= 0;
+    }
+
     public void OnSpook()
     {
         ChangeState(agroState);
@@ -45,6 +52,8 @@ public class EnemyStateMachine : BizarreTools.StateMachine.StateMachine
         UpdateState();
 
         pointerSprite.transform.rotation = Quaternion.Euler(0, currentLookAngle, 0);
+
+        HandleSpriteDirection();
     }
 
 }

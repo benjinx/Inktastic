@@ -76,6 +76,10 @@ public class Hitbox : GameplayBehaviour
                         //take damage
                         //add to already hit
                         hitbox.combat.TakeDamage(damage);
+                        if(hitbox.combat.GetComponent<EnemyStateMachine>() != null && combat.GetComponent<PlayerStateMachine>() != null)
+                        {
+                            hitbox.combat.GetComponent<EnemyStateMachine>().eyes.Spook(combat.GetComponent<PlayerStateMachine>());
+                        }
                         combat.hitSuccess?.Invoke();
                         alreadyHit.Add(hitbox.combat);
                     }

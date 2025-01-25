@@ -8,6 +8,7 @@ public class EnemyPatrolState : EnemyState
     public float newSearchInterval;
     public float searchReconDistance;
     public float patrolSpeed;
+    public bool turretMode;
 
     private float currentSearchTime;
     private float currentSearchDistance;
@@ -22,18 +23,32 @@ public class EnemyPatrolState : EnemyState
     {
         base.OnStateUpdate();
 
-        currentSearchTime += Time.deltaTime;
-        currentSearchDistance += Time.deltaTime;
-
-        if(currentSearchDistance <= searchReconDistance)
+        if (turretMode)
         {
-            esm.cCon.Move(esm.pointerSprite.transform.forward * patrolSpeed * Time.deltaTime);
+            esm.currentLookAngle += Time.deltaTime * patrolSpeed;
+
+            if(esm.currentLookAngle >= 180)
+            {
+                esm.currentLookAngle = -180;
+            }
+        }
+        else
+        {
+            currentSearchTime += Time.deltaTime;
+            currentSearchDistance += Time.deltaTime;
+
+            if (currentSearchDistance <= searchReconDistance)
+            {
+                esm.cCon.Move(esm.pointerSprite.transform.forward * patrolSpeed * Time.deltaTime);
+            }
+
+            if (currentSearchTime >= newSearchInterval)
+            {
+                esm.currentLookAngle = PickNewPatrolAngle();
+            }
         }
 
-        if(currentSearchTime >= newSearchInterval)
-        {
-            esm.currentLookAngle = PickNewPatrolAngle();
-        }
+     
     }
 
 

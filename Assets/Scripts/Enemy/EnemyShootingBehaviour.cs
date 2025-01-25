@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyShootingBehaviour : GameplayBehaviour
@@ -6,11 +7,12 @@ public class EnemyShootingBehaviour : GameplayBehaviour
     public float burstInterval;
     public Bubble.Mode trackingMode;
     public Transform firePoint;
+    public float bubbleSpeed;
+    public float bubbleLife = 5f;
 
     [HideInInspector]
     public EnemyStateMachine esm;
 
-    private ObjectPooler pooler;
     private float currentBurstTime;
     private bool attacking;
     private int currentBurst = 0;
@@ -18,7 +20,6 @@ public class EnemyShootingBehaviour : GameplayBehaviour
     public void Awake()
     {
         esm = GetComponent<EnemyStateMachine>();
-        pooler = GetComponent<ObjectPooler>();
     }
 
     public void Update()
@@ -30,6 +31,7 @@ public class EnemyShootingBehaviour : GameplayBehaviour
             if(currentBurstTime >= burstInterval)
             {
                 currentBurst++;
+                currentBurstTime = 0;
                 LaunchBubble();
 
                 if(currentBurst >= burstSize)
@@ -42,7 +44,20 @@ public class EnemyShootingBehaviour : GameplayBehaviour
 
     public void LaunchBubble()
     {
-        pooler.SpawnFromPool("bubbles", firePoint.transform.position, Quaternion.Euler(Vector3.forward));
+        Bubble bubble = ObjectPooler.Instance.SpawnFromPool("bubbles", firePoint.transform.position, Quaternion.Euler(firePoint.forward)).GetComponent<Bubble>();
+        bubble.speed = bubbleSpeed;
+        bubble.mode = trackingMode;
+        bubble.transform.forward = firePoint.transform.forward;
+        if(esm.eyes.activeTarget != null)
+        {
+            bubble.target = esm.eyes.activeTarget.transform;
+        }
+
+        Timer time = bubble.AddComponent<Timer>();
+        time.duration = bubbleLife;
+        time.startAction = Timer.StartAction.OnlyInvokeEvent;
+        time.onFinishedInternal += bubble.Despawn;
+        time.EnableTimer();
     }
 
     public void InitiateAttack()

@@ -302,6 +302,7 @@ MonoBehaviour:
     newSearchInterval: 10
     searchReconDistance: 5
     patrolSpeed: 2
+    turretMode: 0
   agroState:
     esm: {fileID: 0}
     agroSpeed: 5
@@ -311,6 +312,10 @@ MonoBehaviour:
     investigateTime: 2
     stopDistance: 0.1
     attackOnCooldown: 0
+    hangBackMaxDistance: 0
+    hangBackMinDistance: 0
+    circleSwitchCooldown: 3
+    moveObjective: 0
   attackState:
     esm: {fileID: 0}
     attackHitbox: {fileID: 3601277942500733766}
@@ -336,6 +341,7 @@ MonoBehaviour:
     esm: {fileID: 0}
   deathState:
     esm: {fileID: 0}
+  actorSprite: {fileID: 4380368585708017144}
   eyes: {fileID: 5797628956930059036}
   currentLookAngle: 0
   pointerSprite: {fileID: 5184033789548072183}
@@ -416,7 +422,7 @@ MonoBehaviour:
     m_Bits: 64
   obstructionMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   radius: 53.62
   angle: 121.96
   checkInterval: 0.1

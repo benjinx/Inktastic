@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ public class Timer : MonoBehaviour
     public float duration;
 
     public UnityEvent onFinished;
+    public Action onFinishedInternal;
 
     public TimerStart timerStart;
     public StartAction startAction;
@@ -87,6 +89,7 @@ public class Timer : MonoBehaviour
                         break;
                 }
                 onFinished?.Invoke();
+                onFinishedInternal?.Invoke();
                 currentTime = 0;
                 timeActive = false;
             }
