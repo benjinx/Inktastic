@@ -48,7 +48,6 @@ public class Hitbox : GameplayBehaviour
         onAttackStart?.Invoke();
     }
 
-
     protected override void OnUpdate()
     {
         if (isActive)

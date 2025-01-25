@@ -71,6 +71,9 @@ public class CombatHandler : GameplayBehaviour
 
         if (currentHealth <= 0)
         {
+            // Force 0 health, good habbit
+            currentHealth = 0;
+
             Die();
         }
 
@@ -89,6 +92,17 @@ public class CombatHandler : GameplayBehaviour
         if(GetComponent<EnemyStateMachine>() != null)
         {
             Destroy(this.gameObject);
+        }
+
+        if (GetComponent<Boss>() != null)
+        {
+            Vector3 deadRotation = transform.rotation.eulerAngles;
+
+            deadRotation.z = -90.0f;
+
+            transform.DORotate(deadRotation, 1.0f);
+
+            GetComponent<Boss>().EndBossCombat();
         }
     }
 

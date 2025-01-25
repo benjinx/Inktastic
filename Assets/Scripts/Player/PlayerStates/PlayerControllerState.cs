@@ -39,7 +39,6 @@ public class PlayerControllerState : PlayerState
         HandleLookAngle();
     }
 
-
     public void Movement()
     {
 

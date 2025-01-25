@@ -15,16 +15,24 @@ public class Needle : GameplayBehaviour
 
     private Vector3 targetDirection;
 
-    public float projectileSpeed = 2.0f;
+    private float projectileSpeed = 20.0f;
 
     [HideInInspector]
     public bool isAvailable = true;
+
+    private Quaternion originalRotation;
+
+    public Hitbox hitbox;
 
     void Start()
     {
         seedX = Random.Range(0.0f, 100.0f);
         seedY = Random.Range(0.0f, 100.0f);
         seedZ = Random.Range(0.0f, 100.0f);
+
+        originalRotation = transform.rotation;
+
+        hitbox.InitializeHitbox(GameManager.instance.player.GetComponent<CombatHandler>());
     }
 
     protected override void OnUpdate()
@@ -40,6 +48,14 @@ public class Needle : GameplayBehaviour
             Vector3 offset = new Vector3(x, y, z) * floatRadius;
 
             transform.position = Vector3.Lerp(transform.position, floatTarget.position + offset, floatSpeed);
+
+            Vector3 updatingTargetDir = GameManager.instance.player.
+                GetComponent<PlayerStateMachine>()
+                .controllerState.pointerSprite.transform.forward;
+
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                Quaternion.FromToRotation(Vector3.up, updatingTargetDir),
+                5.0f * Time.deltaTime);
         }
 
         if (isShooting)
@@ -48,7 +64,11 @@ public class Needle : GameplayBehaviour
                 Quaternion.FromToRotation(Vector3.up, targetDirection),
                 5.0f * Time.deltaTime);
 
-            transform.position += transform.up * projectileSpeed * Time.deltaTime;
+            Vector3 finalPos = transform.position + transform.up * projectileSpeed * Time.deltaTime;
+
+            finalPos.y = 1.5f;
+
+            transform.position = finalPos;
         }
     }
 
@@ -62,6 +82,8 @@ public class Needle : GameplayBehaviour
         targetDirection = target;
 
         isAvailable = false;
+
+        hitbox.ActivateHitbox(1.0f, 50);
     }
 
     // Called when we hit the target
@@ -83,9 +105,16 @@ public class Needle : GameplayBehaviour
     // Target has been asked to be reset above character
     public void ResetSpike()
     {
+        // Not great
+        isShooting = false;
+
+
         transform.position = floatTarget.position; // Move back to our anchor
+        transform.rotation = originalRotation;
         isFloating = true;
         gameObject.SetActive(true);
+
+        transform.parent = null;
 
         isAvailable = true;
     }

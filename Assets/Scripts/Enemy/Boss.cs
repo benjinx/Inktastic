@@ -9,8 +9,6 @@ public class Boss : GameplayBehaviour
     // Set this to one when we're active
     Phase phase = Phase.None;
 
-    private bool spawned = false;
-
     private float currentTime = 0.0f;
 
     private float phaseOneTimeToSpawn = 3.0f;
@@ -42,11 +40,7 @@ public class Boss : GameplayBehaviour
     {
         base.OnUpdate();
 
-        Debug.Log("Current Phase: " + phase);
-
         float healthAsPercent = ((float)combatHandler.currentHealth / (float)combatHandler.maxHealth) * 100.0f;
-
-        Debug.Log("Current health %: " + healthAsPercent);
 
         if (healthAsPercent <= 75.0f && !phaseTriggered[0])
         {
@@ -107,7 +101,6 @@ public class Boss : GameplayBehaviour
 
                 break;
             case Phase.Two:
-                // Get proper parent, should only need to do it once
                 if (!parentFound)
                 {
                     if (parentObject == null)
@@ -156,10 +149,6 @@ public class Boss : GameplayBehaviour
 
                 break;
             case Phase.Three:
-                // Shoot projectiles that create pathways in the negative space that the player must weave through
-                // - Request amounts of balls and we need to do a flip flop pattern example:
-                // ---   ---   ---   ---
-                //    ---   ---   ---
 
                 if (currentTime >= phaseThreeTimeToSpawn)
                 {
@@ -263,5 +252,15 @@ public class Boss : GameplayBehaviour
 
             phase = Phase.One;
         }
+    }
+
+    public void EndBossCombat()
+    {
+        if (hasBossFightStarted)
+        {
+            phase = Phase.None;
+        }
+
+        // Shortly after, we need to call the end game screen
     }
 }

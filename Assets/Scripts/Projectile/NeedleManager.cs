@@ -23,12 +23,9 @@ public class NeedleManager : MonoBehaviour
 
     public void ShootProjectile()
     {
-        float angle = gameObject.GetComponent<PlayerStateMachine>().controllerState.currentLookAngle;
+        PlayerStateMachine psm = GetComponent<PlayerStateMachine>();
 
-        // Somethings goin on with the angle
-        Debug.Log(angle);
-
-        Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0.0f, Mathf.Sin(angle * Mathf.Deg2Rad));
+        Vector3 direction = psm.controllerState.pointerSprite.transform.forward;
 
         foreach (Needle needle in needles)
         {
@@ -55,6 +52,8 @@ public class NeedleManager : MonoBehaviour
                 {
                     // We could try to just reset 1 instead of all, but for now let's just do all
                     needle.ResetSpike();
+
+                    currentHits = 0;
                 }
             }
         }
