@@ -29,6 +29,8 @@ public class Needle : GameplayBehaviour
 
     protected override void OnUpdate()
     {
+        base.OnUpdate();
+
         if (isFloating)
         {
             float x = Mathf.PerlinNoise(seedX, Time.time * floatSpeed) * 2.0f - 1.0f;

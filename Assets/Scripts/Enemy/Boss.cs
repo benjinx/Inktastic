@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Boss : GameplayBehaviour
@@ -7,8 +8,6 @@ public class Boss : GameplayBehaviour
 
     // Set this to one when we're active
     Phase phase = Phase.None;
-
-    private List<GameObject> activeBubbles = new List<GameObject>();
 
     private bool spawned = false;
 
@@ -32,6 +31,8 @@ public class Boss : GameplayBehaviour
 
     private bool[] phaseTriggered = new bool[3]; // track to see if a phase has been triggered
 
+    private bool hasBossFightStarted = false;
+
     void Start()
     {
         combatHandler = GetComponent<CombatHandler>();
@@ -39,7 +40,13 @@ public class Boss : GameplayBehaviour
 
     protected override void OnUpdate()
     {
+        base.OnUpdate();
+
+        Debug.Log("Current Phase: " + phase);
+
         float healthAsPercent = ((float)combatHandler.currentHealth / (float)combatHandler.maxHealth) * 100.0f;
+
+        Debug.Log("Current health %: " + healthAsPercent);
 
         if (healthAsPercent <= 75.0f && !phaseTriggered[0])
         {
@@ -47,13 +54,13 @@ public class Boss : GameplayBehaviour
 
             phaseTriggered[0] = true;
         }
-        else if (healthAsPercent <= 50.0f && phaseTriggered[1])
+        else if (healthAsPercent <= 50.0f && !phaseTriggered[1])
         {
             ChangePhase(Phase.Three);
 
             phaseTriggered[1] = true;
         }
-        else if (healthAsPercent <= 25.0f && phaseTriggered[2])
+        else if (healthAsPercent <= 25.0f && !phaseTriggered[2])
         {
             ChangePhase(Phase.Four);
 
@@ -90,13 +97,11 @@ public class Boss : GameplayBehaviour
 
                         bubble.mode = Bubble.Mode.Tracking;
                         bubble.target = GameManager.instance.player.transform;
-
-                        // Add parent so we can track them as a group
-                        activeBubbles.Add(newBubble);
+                        bubble.trackingSpeed = 5.0f;
 
                         int randomDeleteTime = Random.Range(4, 8);
 
-                        Invoke(nameof(DespawnBubble), randomDeleteTime);
+                        DespawnBubble(newBubble, randomDeleteTime);
                     }
                 }
 
@@ -141,17 +146,12 @@ public class Boss : GameplayBehaviour
                     GameObject backwardBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionBackward, rotationBackward);
                     backwardBubble.transform.parent = parentObject.transform;
 
-                    activeBubbles.Add(rightBubble);
-                    activeBubbles.Add(leftBubble);
-                    activeBubbles.Add(forwardBubble);
-                    activeBubbles.Add(backwardBubble);
-
                     int deleteTime = 8;
 
-                    Invoke(nameof(DespawnBubble), deleteTime);
-                    Invoke(nameof(DespawnBubble), deleteTime);
-                    Invoke(nameof(DespawnBubble), deleteTime);
-                    Invoke(nameof(DespawnBubble), deleteTime);
+                    DespawnBubble(rightBubble, deleteTime);
+                    DespawnBubble(leftBubble, deleteTime);
+                    DespawnBubble(forwardBubble, deleteTime);
+                    DespawnBubble(backwardBubble, deleteTime);
                 }
 
                 break;
@@ -199,11 +199,9 @@ public class Boss : GameplayBehaviour
                         GameObject bubble = ObjectPooler.Instance.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
                         bubble.GetComponent<Bubble>().speed = 1.0f;
 
-                        activeBubbles.Add(bubble);
-
                         int deleteTime = 8;
 
-                        Invoke(nameof(DespawnBubble), deleteTime);
+                        DespawnBubble(bubble, deleteTime);
                     }
 
                     ringCount++;
@@ -233,11 +231,9 @@ public class Boss : GameplayBehaviour
                         GameObject bubble = ObjectPooler.Instance.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
                         bubble.GetComponent<Bubble>().speed = 1.0f;
 
-                        activeBubbles.Add(bubble);
-
                         int deleteTime = 8;
 
-                        Invoke(nameof(DespawnBubble), deleteTime);
+                        DespawnBubble(bubble, deleteTime);
                     }
                 }
 
@@ -245,21 +241,13 @@ public class Boss : GameplayBehaviour
         }
     }
 
-    void DespawnBubble()
+    void DespawnBubble(GameObject bubble, float despawnTime)
     {
-        // Valid to delete
-        if (activeBubbles.Count > 0)
-        {
-            // Reparent if need be
-            if (activeBubbles[0].transform.parent != transform)
-            {
-                activeBubbles[0].transform.parent = transform;
-            }
-
-            // Just remove the first
-            activeBubbles[0].GetComponent<Bubble>().Despawn();
-            activeBubbles.Remove(activeBubbles[0]);
-        }
+        Timer time = bubble.AddComponent<Timer>();
+        time.duration = despawnTime;
+        time.startAction = Timer.StartAction.OnlyInvokeEvent;
+        time.onFinishedInternal += bubble.GetComponent<Bubble>().Despawn;
+        time.EnableTimer();
     }
 
     private void ChangePhase(Phase phase)
@@ -267,9 +255,13 @@ public class Boss : GameplayBehaviour
         this.phase = phase;
     }
 
-    // Call when player walks in
     public void StartBossCombat()
     {
-        phase = Phase.One;
+        if (!hasBossFightStarted)
+        {
+            hasBossFightStarted = true;
+
+            phase = Phase.One;
+        }
     }
 }

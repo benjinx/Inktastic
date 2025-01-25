@@ -62,6 +62,11 @@ public class CombatHandler : GameplayBehaviour
             float normalizedHealth = (float)currentHealth / (float)maxHealth;
 
             // Call porriths callback
+            GameplayStates.ChangeBossHealth(normalizedHealth);
+        }
+        else if (transform.tag == "Player")
+        {
+            GameplayStates.ChangePlayerHealth((int)currentHealth, (int)maxHealth);
         }
 
         if (currentHealth <= 0)

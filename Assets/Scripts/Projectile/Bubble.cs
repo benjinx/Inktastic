@@ -60,5 +60,6 @@ public class Bubble : GameplayBehaviour
         rb.ResetInertiaTensor();
         rb.angularVelocity = Vector3.zero;
         rb.isKinematic = true;
+        mode = Mode.Default;
     }
 }

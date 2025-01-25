@@ -11,6 +11,9 @@ public class NeedleManager : MonoBehaviour
     void Start()
     {
         GetComponent<CombatHandler>().hitSuccess += HandleHitCounter;
+
+
+        //GameplayStates.ChangePlayerAmmo(ammoBinding.RawValue, ammoBinding.Denominator);
     }
 
     void Update()
