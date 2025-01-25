@@ -51,7 +51,17 @@
     display: none;
 }
 
-.transparent-img {
-    -unity-background-image-tint-color: rgba(255, 255, 255, 0);
-    background-color: rgba(255, 255, 255, 0);
+.invisible {
+    visibility: visible;
+    opacity: 0;
+}
+
+.title-centered-down {
+    align-items: center;
+    flex-direction: row;
+    align-self: center;
+    align-content: auto;
+    width: 30%;
+    -unity-text-align: upper-center;
+    top: 60%;
 }

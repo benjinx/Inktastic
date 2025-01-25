@@ -1,6 +1,8 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:Template name="btn-group-2" src="project://database/Assets/Scripts/UI/btn-group-2.uxml?fileID=9197481963319205126&amp;guid=4dbe63926607e76438e321582236b468&amp;type=3#btn-group-2" />
     <Style src="project://database/Assets/Scripts/UI/common.uss?fileID=7433441132597879392&amp;guid=d750e8c839e85654ca29b2ce5b9cd440&amp;type=3#common" />
-    <engine:VisualElement name="background" class="fullscreen-background" style="flex-grow: 1;" />
-    <engine:Label text="You win!" name="msg" class="title-centered title-large" />
-    <engine:Button text="Return to Main Menu" name="return" class="title-centered title-medium" style="white-space: normal; width: 45%;" />
+    <engine:VisualElement name="background" class="fullscreen-background" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/Textures/ggj25_gameover_bg.jpg?fileID=2800000&amp;guid=efb92828e11701d47a8beccd93e21642&amp;type=3#ggj25_gameover_bg&quot;);" />
+    <engine:Label text="GATEKEEPER SLAIN" name="msg" class="title-large title-centered-down" style="-unity-font-definition: url(&quot;project://database/Assets/Data/Syncopate/Syncopate-Bold.ttf?fileID=12800000&amp;guid=55bb39133ab46c2419fee83e3914ba67&amp;type=3#Syncopate-Bold&quot;); color: rgb(255, 73, 73); margin-bottom: 20px;" />
+    <engine:Instance template="btn-group-2" name="retry" class="title-centered-down" style="align-items: center; justify-content: center;" />
+    <engine:Instance template="btn-group-2" name="return" class="title-centered-down" style="align-items: center; justify-content: center;" />
 </engine:UXML>

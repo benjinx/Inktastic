@@ -59,12 +59,12 @@ public class MainMenu : MonoBehaviour
     {
         element.RegisterCallback<MouseEnterEvent>(_ =>
         {
-            target.RemoveFromClassList("transparent-img");
+            target.RemoveFromClassList("invisible");
         });
 
         element.RegisterCallback<MouseLeaveEvent>(_ =>
         {
-            target.AddToClassList("transparent-img");
+            target.AddToClassList("invisible");
         });
     }
 

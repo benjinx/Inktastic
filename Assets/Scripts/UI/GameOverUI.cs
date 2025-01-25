@@ -1,13 +1,16 @@
+using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 using static UnityEngine.InputSystem.InputAction;
 
 [RequireComponent(typeof(UIDocument))]
 public class GameOverUI : MonoBehaviour
 {
     [SerializeField]
-    private SceneSet sceneSet;
+    private SceneSet onLoseSceneSet;
 
     [SerializeField]
     private bool visible;
@@ -19,20 +22,51 @@ public class GameOverUI : MonoBehaviour
     [SerializeField]
     private string[] messages = new string[2];
 
+    [SerializeField]
+    private Texture2D[] backgrounds = new Texture2D[2];
+
     private UIDocument document;
     private VisualElement root;
 
+    private static void AssertArray<T>(ref T[] src, int size = 2)
+    {
+        if (src.Length != size)
+        {
+            var array = new T[size];
+            for (var i = 0; i < size; i++)
+            {
+                array[i] = src[i];
+            }
+            // Replace the src with the copy.
+            src = array;
+        }
+    }
+
+    private static void AttachCommonCallbacks(VisualElement element, VisualElement target)
+    {
+        element.RegisterCallback<MouseEnterEvent>(_ =>
+        {
+            target.RemoveFromClassList("invisible");
+        });
+
+        element.RegisterCallback<MouseLeaveEvent>(_ =>
+        {
+            target.AddToClassList("invisible");
+        });
+    }
+
+    private static void ProcessButtonGroup(VisualElement root, string id, Action<VisualElement, Button> action)
+    {
+        var container = root.Q<TemplateContainer>(id);
+        var ptr = container.Q<VisualElement>("pointer");
+        var btn = container.Q<Button>("btn");
+        action?.Invoke(ptr, btn);
+    }
+
     private void OnValidate()
     {
-        if (messages.Length != 2)
-        {
-            var array = new string[2];
-            for (int i = 0; i < 2; i++)
-            {
-                array[i] = messages[i];
-            }
-            messages = array;
-        }
+        AssertArray(ref messages);
+        AssertArray(ref backgrounds);
     }
 
     private void OnEnable()
@@ -63,12 +97,45 @@ public class GameOverUI : MonoBehaviour
 
         root.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
 
-        var returnBtn = root.Q<Button>(UIIdentifiers.@return);
-        returnBtn.RegisterCallback<MouseUpEvent>(async _ =>
+        var returnGroup = root.Q<TemplateContainer>("return");
+        ProcessButtonGroup(root, "return", (img, btn) =>
         {
-            await SceneOperations.LoadScenes(sceneSet.SceneLoadIndices, () => Debug.Log("Loading finished"));
-            await SceneOperations.UnloadScenes(sceneSet.SceneUnloadIndices, () => Debug.Log("Unloading finished"));
-            root.style.display = DisplayStyle.None;
+            btn.text = "RETURN";
+            AttachCommonCallbacks(btn, img);
+            AttachCommonCallbacks(img, img);
+            img.RegisterCallback<MouseUpEvent>(async _ =>
+            {
+                await SceneOperations.LoadScenes(onLoseSceneSet.SceneLoadIndices, () => Debug.Log("Loading finished"));
+                await SceneOperations.UnloadScenes(onLoseSceneSet.SceneUnloadIndices, () => Debug.Log("Unloading finished"));
+                root.style.display = DisplayStyle.None;
+            });
+
+            btn.RegisterCallback<MouseUpEvent>(async _ =>
+            {
+                await SceneOperations.LoadScenes(onLoseSceneSet.SceneLoadIndices, () => Debug.Log("Loading finished"));
+                await SceneOperations.UnloadScenes(onLoseSceneSet.SceneUnloadIndices, () => Debug.Log("Unloading finished"));
+                root.style.display = DisplayStyle.None;
+            });
+        });
+
+        ProcessButtonGroup(root, "retry", (img, btn) =>
+        {
+            btn.text = "TRY AGAIN";
+            AttachCommonCallbacks(btn, img);
+            AttachCommonCallbacks(img, img);
+            img.RegisterCallback<MouseUpEvent>(async _ =>
+            {
+                await SceneOperations.LoadScenes(onLoseSceneSet.SceneLoadIndices, () => Debug.Log("Loading finished"));
+                await SceneOperations.UnloadScenes(onLoseSceneSet.SceneUnloadIndices, () => Debug.Log("Unloading finished"));
+                root.style.display = DisplayStyle.None;
+            });
+
+            btn.RegisterCallback<MouseUpEvent>(async _ =>
+            {
+                await SceneOperations.LoadScenes(onLoseSceneSet.SceneLoadIndices, () => Debug.Log("Loading finished"));
+                await SceneOperations.UnloadScenes(onLoseSceneSet.SceneUnloadIndices, () => Debug.Log("Unloading finished"));
+                root.style.display = DisplayStyle.None;
+            });
         });
     }
 
@@ -82,8 +149,57 @@ public class GameOverUI : MonoBehaviour
 
     private void OnGameFinished(bool win)
     {
+        int idx = AsInt(win);
+        var btnTextColor = win ? Color.black : Color.white;
         root.style.display = DisplayStyle.Flex;
         var label = root.Q<Label>(UIIdentifiers.msg);
-        label.text = win ? messages[1] : messages[0];
+        label.text = messages[idx];
+
+        var background = root.Q<VisualElement>("background");
+        background.style.backgroundImage = backgrounds[idx];
+
+        ProcessButtonGroup(root, "retry", (img, btn) =>
+        {
+            btn.style.color = btnTextColor;
+            btn.text = "TRY AGAIN";
+
+            img.RegisterCallback<MouseUpEvent>(async _ =>
+            {
+                await SceneOperations.LoadScenes(onLoseSceneSet.SceneLoadIndices, () => Debug.Log("Loading finished"));
+                await SceneOperations.UnloadScenes(onLoseSceneSet.SceneUnloadIndices, () => Debug.Log("Unloading finished"));
+                root.style.display = DisplayStyle.None;
+            });
+
+            btn.RegisterCallback<MouseUpEvent>(async _ =>
+            {
+                await SceneOperations.LoadScenes(onLoseSceneSet.SceneLoadIndices, () => Debug.Log("Loading finished"));
+                await SceneOperations.UnloadScenes(onLoseSceneSet.SceneUnloadIndices, () => Debug.Log("Unloading finished"));
+                root.style.display = DisplayStyle.None;
+            });
+        });
+
+        ProcessButtonGroup(root, "return", (img, btn) =>
+        {
+            btn.style.color = btnTextColor;
+            btn.text = "QUIT";
+
+            img.RegisterCallback<MouseUpEvent>(_ =>
+            {
+                root.style.display = DisplayStyle.None;
+                Application.Quit();
+            });
+
+            btn.RegisterCallback<MouseUpEvent>(_ =>
+            {
+                root.style.display = DisplayStyle.None;
+                Application.Quit();
+            });
+        });
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int AsInt(bool value)
+    {
+        return value ? 1 : 0;
     }
 }
