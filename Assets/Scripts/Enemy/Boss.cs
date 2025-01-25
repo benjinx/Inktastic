@@ -39,6 +39,8 @@ public class Boss : GameplayBehaviour
 
     void Update()
     {
+        base.OnUpdate();
+
         // Each phase is per 25%
         // P1 -> 100%
         // P2 -> 75%
