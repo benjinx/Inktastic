@@ -3,14 +3,12 @@ using UnityEngine;
 
 public class Boss : GameplayBehaviour
 {
-    enum Phase { None, One, Two, Three, Four };
+    public enum Phase { None, One, Two, Three, Four };
 
     // Set this to one when we're active
     Phase phase = Phase.None;
 
-    private ObjectPooler pooler;
-
-    public List<GameObject> activeBubbles = new List<GameObject>();
+    private List<GameObject> activeBubbles = new List<GameObject>();
 
     private bool spawned = false;
 
@@ -24,26 +22,45 @@ public class Boss : GameplayBehaviour
 
     private float phaseFourTimeToSpawn = 2.0f;
 
-    public Transform player;
-
     private GameObject parentObject;
 
     private bool parentFound = false;
 
+    private int ringCount = 0;
+
+    private CombatHandler combatHandler;
+
+    private bool[] phaseTriggered = new bool[3]; // track to see if a phase has been triggered
+
     void Start()
     {
-        pooler = GetComponent<ObjectPooler>();
-
-        phase = Phase.Three;
+        combatHandler = GetComponent<CombatHandler>();
     }
 
     void Update()
     {
-        // Each phase is per 25%
-        // P1 -> 100%
-        // P2 -> 75%
-        // P3 -> 50%
-        // P4 -> 25%
+        base.OnUpdate();
+
+        float healthAsPercent = ((float)combatHandler.currentHealth / (float)combatHandler.maxHealth) * 100.0f;
+
+        if (healthAsPercent <= 75.0f && !phaseTriggered[0])
+        {
+            ChangePhase(Phase.Two);
+
+            phaseTriggered[0] = true;
+        }
+        else if (healthAsPercent <= 50.0f && phaseTriggered[1])
+        {
+            ChangePhase(Phase.Three);
+
+            phaseTriggered[1] = true;
+        }
+        else if (healthAsPercent <= 25.0f && phaseTriggered[2])
+        {
+            ChangePhase(Phase.Four);
+
+            phaseTriggered[2] = true;
+        }
 
         currentTime += Time.deltaTime;
 
@@ -63,24 +80,23 @@ public class Boss : GameplayBehaviour
                     for (int i = 0; i < amount; ++i)
                     {
                         // Spawn bubble
-                        GameObject newBubble = pooler.SpawnFromPool("bubbles", Vector3.zero, Quaternion.identity);
+                        GameObject newBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", Vector3.zero, Quaternion.identity);
 
                         // Set parent
-                        newBubble.transform.position = new Vector3(-22.0f + (i * 1.5f),
+                        newBubble.transform.position = transform.position + new Vector3(-5.0f + (i * 1.5f),
                                                                     0.0f,
-                                                                    5.0f + (i * -2.5f)); // Front of boss
+                                                                    -5.0f + (i * -2.5f)); // Front of boss
 
                         // Set mode
                         Bubble bubble = newBubble.GetComponent<Bubble>();
 
                         bubble.mode = Bubble.Mode.Tracking;
-                        bubble.target = player;
+                        bubble.target = GameManager.instance.player.transform;
 
                         // Add parent so we can track them as a group
                         activeBubbles.Add(newBubble);
 
-
-                        int randomDeleteTime = Random.Range(2, 5);
+                        int randomDeleteTime = Random.Range(4, 8);
 
                         Invoke(nameof(DespawnBubble), randomDeleteTime);
                     }
@@ -109,22 +125,22 @@ public class Boss : GameplayBehaviour
 
                     Vector3 positionRight = transform.position + new Vector3(2.0f, 0.0f, 0.0f);
                     Quaternion rotationRight = Quaternion.Euler(Vector3.up * 90.0f);
-                    GameObject rightBubble = pooler.SpawnFromPool("bubbles", positionRight, rotationRight);
+                    GameObject rightBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionRight, rotationRight);
                     rightBubble.transform.parent = parentObject.transform;
 
                     Vector3 positionLeft = transform.position + new Vector3(-2.0f, 0.0f, 0.0f);
                     Quaternion rotationLeft = Quaternion.Euler(Vector3.up * 270.0f);
-                    GameObject leftBubble = pooler.SpawnFromPool("bubbles", positionLeft, rotationLeft);
+                    GameObject leftBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionLeft, rotationLeft);
                     leftBubble.transform.parent = parentObject.transform;
 
                     Vector3 positionForward = transform.position + new Vector3(0f, 0.0f, 2.0f);
                     Quaternion rotationForward = Quaternion.Euler(Vector3.up * 0);
-                    GameObject forwardBubble = pooler.SpawnFromPool("bubbles", positionForward, rotationForward);
+                    GameObject forwardBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionForward, rotationForward);
                     forwardBubble.transform.parent = parentObject.transform;
 
                     Vector3 positionBackward = transform.position + new Vector3(0f, 0.0f, -2.0f);
                     Quaternion rotationBackward = Quaternion.Euler(Vector3.up * 180.0f);
-                    GameObject backwardBubble = pooler.SpawnFromPool("bubbles", positionBackward, rotationBackward);
+                    GameObject backwardBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionBackward, rotationBackward);
                     backwardBubble.transform.parent = parentObject.transform;
 
                     activeBubbles.Add(rightBubble);
@@ -149,8 +165,50 @@ public class Boss : GameplayBehaviour
 
                 if (currentTime >= phaseThreeTimeToSpawn)
                 {
-                    currentTime = 0;
+                    currentTime = 0.0f;
 
+                    int bubbleCount = 50;
+
+                    float angleStep = 360.0f / bubbleCount;
+
+                    int shiftOffset = ringCount % 10;
+
+                    int amountOfBubblesToSkip = 5;
+
+                    bool flipPattern = (ringCount % 2 == 1);
+
+                    for (int i = 0; i < bubbleCount; ++i)
+                    {
+                        bool isGap = ((i % 10) < amountOfBubblesToSkip);
+
+                        if (flipPattern)
+                        {
+                            isGap = !isGap;
+                        }
+                        
+                        if (isGap)
+                        {
+                            continue;
+                        }
+
+                        float angle = i * angleStep;
+
+                        float spawnOffset = 6.0f;
+
+                        Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0.0f, Mathf.Sin(angle * Mathf.Deg2Rad));
+
+                        Quaternion rotation = Quaternion.LookRotation(direction);
+                        GameObject bubble = ObjectPooler.Instance.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
+                        bubble.GetComponent<Bubble>().speed = 1.0f;
+
+                        activeBubbles.Add(bubble);
+
+                        int deleteTime = 8;
+
+                        Invoke(nameof(DespawnBubble), deleteTime);
+                    }
+
+                    ringCount++;
 
                 }
 
@@ -159,7 +217,7 @@ public class Boss : GameplayBehaviour
 
                 if (currentTime >= phaseFourTimeToSpawn)
                 {
-                    currentTime = 0;
+                    currentTime = 0.0f;
 
                     int bubbleCount = 50;
 
@@ -174,8 +232,10 @@ public class Boss : GameplayBehaviour
                         Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0.0f, Mathf.Sin(angle * Mathf.Deg2Rad));
 
                         Quaternion rotation = Quaternion.LookRotation(direction);
-                        GameObject bubble = pooler.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
+                        GameObject bubble = ObjectPooler.Instance.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
                         bubble.GetComponent<Bubble>().speed = 1.0f;
+
+                        activeBubbles.Add(bubble);
 
                         int deleteTime = 8;
 
@@ -202,5 +262,16 @@ public class Boss : GameplayBehaviour
             activeBubbles[0].GetComponent<Bubble>().Despawn();
             activeBubbles.Remove(activeBubbles[0]);
         }
+    }
+
+    private void ChangePhase(Phase phase)
+    {
+        this.phase = phase;
+    }
+
+    // Call when player walks in
+    public void StartBossCombat()
+    {
+        phase = Phase.One;
     }
 }
