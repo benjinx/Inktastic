@@ -1,0 +1,4 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <engine:Template name="boss" src="project://database/Assets/Scripts/UI/boss.uxml?fileID=9197481963319205126&amp;guid=8edd99fbd1284bd4b8ec48c982d9c4c0&amp;type=3#boss" />
+    <engine:Instance template="boss" name="boss" />
+</engine:UXML>
