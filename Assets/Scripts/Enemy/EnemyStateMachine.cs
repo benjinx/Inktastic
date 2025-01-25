@@ -1,6 +1,5 @@
 using UnityEngine;
 using BizarreTools.StateMachine;
-using static UnityEditor.PlayerSettings;
 
 public class EnemyStateMachine : BizarreTools.StateMachine.StateMachine
 {
