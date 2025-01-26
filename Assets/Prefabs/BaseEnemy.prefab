@@ -223,6 +223,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onAttackHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2941494927082466563
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,6 +286,8 @@ MonoBehaviour:
   teamIndex: 1
   flashColorDuration: 0.1
   actorRenderer: {fileID: 4380368585708017144}
+  hitAudioTag: EnemyHurt
+  deathAudioTag: EnemyDeath
 --- !u!114 &6676657235792295172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,6 +722,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onAttackEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  onAttackHit:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &4899448362647872093

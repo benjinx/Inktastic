@@ -53,6 +53,9 @@ public class EnemyShootingBehaviour : GameplayBehaviour
             bubble.target = esm.eyes.activeTarget.transform;
         }
 
+        bubble.combatHandler = GetComponent<CombatHandler>();
+        bubble.dumbInitializeHack = true;
+
         Timer time = bubble.AddComponent<Timer>();
         time.duration = bubbleLife;
         time.startAction = Timer.StartAction.OnlyInvokeEvent;

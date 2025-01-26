@@ -14,6 +14,8 @@ public class CombatHandler : GameplayBehaviour
 
     public SpriteRenderer actorRenderer;
     public Action hitSuccess;
+    public string hitAudioTag;
+    public string deathAudioTag;
 
     private List<Hitbox> hitboxes = new List<Hitbox>();
     private bool colorFlashing;
@@ -56,6 +58,11 @@ public class CombatHandler : GameplayBehaviour
         Debug.Log("OUCH");
         FlashMaterial(actorRenderer.material, Color.red, flashColorDuration);
 
+        if (hitAudioTag != "")
+        {
+            MagesAudioManager.Instance.PlayClip(hitAudioTag);
+        }
+
         if (currentHealth <= 0)
         {
             // Force 0 health, good habbit
@@ -81,6 +88,11 @@ public class CombatHandler : GameplayBehaviour
     public void Die()
     {
         dead = true;
+
+        if(deathAudioTag != "")
+        {
+            MagesAudioManager.Instance.PlayClip(deathAudioTag);
+        }
 
         if (GetComponent<PlayerStateMachine>() != null)
         {

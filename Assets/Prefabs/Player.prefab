@@ -190,6 +190,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onAttackHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1680914539576970493
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +483,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    dashDuration: 0.1
+    dashDuration: 0.25
     dashSpeedMultiplier: 0.25
     dashStartingSpeed: 3
     attackHitbox: {fileID: 14257191045164603}
@@ -620,6 +623,8 @@ MonoBehaviour:
   teamIndex: 0
   flashColorDuration: 0
   actorRenderer: {fileID: 327772624071162333}
+  hitAudioTag: PlayerHurt
+  deathAudioTag: PlayerDeath
 --- !u!114 &1364373660033674384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -959,6 +964,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onAttackEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  onAttackHit:
     m_PersistentCalls:
       m_Calls: []
 --- !u!65 &7954971854806185232

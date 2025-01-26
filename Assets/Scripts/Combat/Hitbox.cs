@@ -24,6 +24,7 @@ public class Hitbox : GameplayBehaviour
 
     public UnityEvent onAttackStart;
     public UnityEvent onAttackEnd;
+    public UnityEvent onAttackHit;
 
 
     private void Start()
@@ -48,10 +49,22 @@ public class Hitbox : GameplayBehaviour
         onAttackStart?.Invoke();
     }
 
+    public void StopHitbox()
+    {
+        currentDuration = 0;
+        isActive = false;
+        alreadyHit.Clear();
+    }
+
     protected override void OnUpdate()
     {
         if (isActive)
         {
+            if(combat == null)
+            {
+                return;
+            }
+
             currentDuration += Time.deltaTime;
 
             if (movementSpline != null)
@@ -70,7 +83,7 @@ public class Hitbox : GameplayBehaviour
                 {
                     Hitbox hitbox = hits[i].collider.GetComponent<Hitbox>();
 
-                    if (!alreadyHit.Contains(hitbox.combat) && hitbox.combat != this.combat && hitbox.combat.teamIndex != combat.teamIndex)
+                    if (!alreadyHit.Contains(hitbox.combat) && hitbox.combat != this.combat && hitbox.combat.teamIndex != combat.teamIndex && !hitbox.attacking)
                     {
                         //take damage
                         //add to already hit
@@ -80,6 +93,7 @@ public class Hitbox : GameplayBehaviour
                             hitbox.combat.GetComponent<EnemyStateMachine>().eyes.Spook(combat.GetComponent<PlayerStateMachine>());
                         }
                         combat.hitSuccess?.Invoke();
+                        onAttackHit?.Invoke();
                         alreadyHit.Add(hitbox.combat);
                     }
                 }

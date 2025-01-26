@@ -95,6 +95,7 @@ public class Boss : GameplayBehaviour
                         bubble.target = GameManager.instance.player.transform;
                         bubble.trackingSpeed = 5.0f;
                         bubble.combatHandler = combatHandler;
+                        bubble.dumbInitializeHack = true;
 
                         int randomDeleteTime = Random.Range(4, 8);
 
@@ -135,6 +136,7 @@ public class Boss : GameplayBehaviour
                     Bubble rightBubble = rightBubbleGobj.GetComponent<Bubble>();
                     rightBubble.speed = p2speed;
                     rightBubble.combatHandler = combatHandler;
+                    rightBubble.dumbInitializeHack = true;
 
                     Vector3 positionLeft = transform.position + new Vector3(-offsetAmount, 0.0f, 0.0f);
                     positionLeft.y = 1.5f;
@@ -145,6 +147,7 @@ public class Boss : GameplayBehaviour
                     Bubble leftBubble = leftBubbleGobj.GetComponent<Bubble>();
                     leftBubble.speed = p2speed;
                     leftBubble.combatHandler = combatHandler;
+                    leftBubble.dumbInitializeHack = true;
 
                     Vector3 positionForward = transform.position + new Vector3(0f, 0.0f, offsetAmount);
                     positionForward.y = 1.5f;
@@ -155,6 +158,7 @@ public class Boss : GameplayBehaviour
                     Bubble forwardBubble = forwardBubbleGobj.GetComponent<Bubble>();
                     forwardBubble.speed = p2speed;
                     forwardBubble.combatHandler = combatHandler;
+                    forwardBubble.dumbInitializeHack = true;
 
                     Vector3 positionBackward = transform.position + new Vector3(0f, 0.0f, -offsetAmount);
                     positionBackward.y = 1.5f;
@@ -165,6 +169,7 @@ public class Boss : GameplayBehaviour
                     Bubble backwardBubble = backwardBubbleGobj.GetComponent<Bubble>();
                     backwardBubble.speed = p2speed;
                     backwardBubble.combatHandler = combatHandler;
+                    backwardBubble.dumbInitializeHack = true;
 
                     int deleteTime = 5;
 
@@ -219,6 +224,7 @@ public class Boss : GameplayBehaviour
                         Bubble bubble = bubbleGobj.GetComponent<Bubble>();
                         bubble.speed = 2.0f;
                         bubble.combatHandler = combatHandler;
+                        bubble.dumbInitializeHack = true;
 
                         int deleteTime = 5;
 
@@ -258,6 +264,7 @@ public class Boss : GameplayBehaviour
                         Bubble bubble = bubbleGobj.GetComponent<Bubble>();
                         bubble.speed = 2.0f;
                         bubble.combatHandler = combatHandler;
+                        bubble.dumbInitializeHack = true;
 
                         int deleteTime = 5;
 

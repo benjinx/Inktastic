@@ -233,6 +233,7 @@ public class MagesAudioManager : SingletonMonoBehaviour<MagesAudioManager>
 
     public void PlayClip(string _tag)
     {
+        Debug.Log("Playing " + _tag);
         if (loadedClips.ContainsKey(_tag))
         {
             AudioSource source = ObjectPooler.Instance.SpawnFromPool(posSourcePool.tag, this.transform.position, this.transform.rotation).GetComponent<AudioSource>();

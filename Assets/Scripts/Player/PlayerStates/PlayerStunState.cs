@@ -7,6 +7,13 @@ public class PlayerStunState : PlayerState
 
     private float currentStunTime;
 
+    public override void OnStateEnter()
+    {
+        base.OnStateEnter();
+
+
+    }
+
     public override void OnStateUpdate()
     {
         base.OnStateUpdate();

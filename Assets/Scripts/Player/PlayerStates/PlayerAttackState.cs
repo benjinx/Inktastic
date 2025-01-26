@@ -15,6 +15,8 @@ public class PlayerAttackState : PlayerDodgeState
         onAttack?.Invoke();
         attackHitbox.ActivateHitbox(attackDuration, damage);
 
+        MagesAudioManager.Instance.PlayClip("Slash");
+
         if (psm.controllerState.currentPlayerVelocity.magnitude >= 0.1)
         {
             dashDirection = psm.controllerState.currentPlayerVelocity.normalized;
@@ -33,6 +35,7 @@ public class PlayerAttackState : PlayerDodgeState
     public override void OnStateUpdate()
     {
         base.OnStateUpdate();
+
 
     }
 
