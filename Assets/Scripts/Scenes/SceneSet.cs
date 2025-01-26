@@ -10,10 +10,13 @@ using UnityEditor;
 [CreateAssetMenu(fileName = "SceneSet", menuName = "Scriptable Objects/SceneSet")]
 public class SceneSet : ScriptableObject
 {
+
     public IReadOnlyList<int> SceneLoadIndices => loadIndices;
     public IReadOnlyList<int> SceneUnloadIndices => unloadIndices;
 
+    [SerializeField]
     private int[] loadIndices = Array.Empty<int>();
+    [SerializeField]
     private int[] unloadIndices = Array.Empty<int>();
 
 #if UNITY_EDITOR

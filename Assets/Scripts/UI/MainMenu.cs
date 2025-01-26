@@ -26,26 +26,36 @@ public class MainMenu : MonoBehaviour
                 {
                     foreach (var item in sceneSet.SceneLoadIndices)
                     {
-                        Debug.Log("LOADED " + item);
+                        Debug.Log("BTN LOADED " + item);
                     }
                 });
 
-          
-
-               
                 await SceneOperations.UnloadScenes(sceneSet.SceneUnloadIndices, () =>
                 {
                     foreach (var item in sceneSet.SceneUnloadIndices)
                     {
-                        Debug.Log("UNLOADED " + item);
+                        Debug.Log("BTN UNLOADED " + item);
                     }
                 });
             });
 
             img.RegisterCallback<MouseUpEvent>(async _ =>
             {
-                await SceneOperations.LoadScenes(sceneSet.SceneLoadIndices, () => Debug.Log("Finished load"));
-                await SceneOperations.UnloadScenes(sceneSet.SceneUnloadIndices, () => Debug.Log("Finished unload"));
+                await SceneOperations.LoadScenes(sceneSet.SceneLoadIndices, () =>
+                {
+                    foreach (var item in sceneSet.SceneLoadIndices)
+                    {
+                        Debug.Log("IMG LOADED " + item);
+                    }
+                });
+
+                await SceneOperations.UnloadScenes(sceneSet.SceneUnloadIndices, () =>
+                {
+                    foreach (var item in sceneSet.SceneUnloadIndices)
+                    {
+                        Debug.Log("IMG UNLOADED " + item);
+                    }
+                });
             });
 
             AttachCommonCallbacks(img, img);
