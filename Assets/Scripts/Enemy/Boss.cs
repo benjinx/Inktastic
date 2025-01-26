@@ -13,9 +13,9 @@ public class Boss : GameplayBehaviour
 
     private float phaseOneTimeToSpawn = 3.0f;
 
-    private float phaseTwoTimeToSpawn = 1.0f;
+    private float phaseTwoTimeToSpawn = 0.5f;
 
-    private float phaseThreeTimeToSpawn = 1.0f;
+    private float phaseThreeTimeToSpawn = 1.5f;
 
     private float phaseFourTimeToSpawn = 2.0f;
 
@@ -111,7 +111,7 @@ public class Boss : GameplayBehaviour
                     }
                 }
 
-                float spinRate = 25.0f;
+                float spinRate = 35.0f;
                 
                 parentObject.transform.Rotate(0, spinRate * Time.deltaTime, 0);
 
@@ -119,25 +119,33 @@ public class Boss : GameplayBehaviour
                 {
                     currentTime = 0.0f;
 
-                    Vector3 positionRight = transform.position + new Vector3(2.0f, 0.0f, 0.0f);
+                    float p2speed = 1.0f;
+
+                    float offsetAmount = 5.0f;
+
+                    Vector3 positionRight = transform.position + new Vector3(offsetAmount, 0.0f, 0.0f);
                     Quaternion rotationRight = Quaternion.Euler(Vector3.up * 90.0f);
                     GameObject rightBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionRight, rotationRight);
                     rightBubble.transform.parent = parentObject.transform;
+                    rightBubble.GetComponent<Bubble>().speed = p2speed;
 
-                    Vector3 positionLeft = transform.position + new Vector3(-2.0f, 0.0f, 0.0f);
+                    Vector3 positionLeft = transform.position + new Vector3(-offsetAmount, 0.0f, 0.0f);
                     Quaternion rotationLeft = Quaternion.Euler(Vector3.up * 270.0f);
                     GameObject leftBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionLeft, rotationLeft);
                     leftBubble.transform.parent = parentObject.transform;
+                    leftBubble.GetComponent<Bubble>().speed = p2speed;
 
-                    Vector3 positionForward = transform.position + new Vector3(0f, 0.0f, 2.0f);
+                    Vector3 positionForward = transform.position + new Vector3(0f, 0.0f, offsetAmount);
                     Quaternion rotationForward = Quaternion.Euler(Vector3.up * 0);
                     GameObject forwardBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionForward, rotationForward);
                     forwardBubble.transform.parent = parentObject.transform;
+                    forwardBubble.GetComponent<Bubble>().speed = p2speed;
 
-                    Vector3 positionBackward = transform.position + new Vector3(0f, 0.0f, -2.0f);
+                    Vector3 positionBackward = transform.position + new Vector3(0f, 0.0f, -offsetAmount);
                     Quaternion rotationBackward = Quaternion.Euler(Vector3.up * 180.0f);
                     GameObject backwardBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionBackward, rotationBackward);
                     backwardBubble.transform.parent = parentObject.transform;
+                    backwardBubble.GetComponent<Bubble>().speed = p2speed;
 
                     int deleteTime = 8;
 
@@ -186,7 +194,7 @@ public class Boss : GameplayBehaviour
 
                         Quaternion rotation = Quaternion.LookRotation(direction);
                         GameObject bubble = ObjectPooler.Instance.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
-                        bubble.GetComponent<Bubble>().speed = 1.0f;
+                        bubble.GetComponent<Bubble>().speed = 2.0f;
 
                         int deleteTime = 8;
 
@@ -218,7 +226,7 @@ public class Boss : GameplayBehaviour
 
                         Quaternion rotation = Quaternion.LookRotation(direction);
                         GameObject bubble = ObjectPooler.Instance.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
-                        bubble.GetComponent<Bubble>().speed = 1.0f;
+                        bubble.GetComponent<Bubble>().speed = 2.0f;
 
                         int deleteTime = 8;
 
