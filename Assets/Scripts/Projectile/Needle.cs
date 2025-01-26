@@ -75,6 +75,8 @@ public class Needle : GameplayBehaviour
     // Called to shoot the spike
     public void ShootSpike(Vector3 target)
     {
+        MagesAudioManager.Instance.PlayClip("ShootSpike");
+
         isFloating = false;
 
         isShooting = true;

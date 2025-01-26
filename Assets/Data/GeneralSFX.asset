@@ -58,7 +58,7 @@ MonoBehaviour:
     source: {fileID: 0}
     pooledSources: []
     audioChannel: 1
-  - name: NeedleLaunch
+  - name: ShootSpike
     clip: {fileID: 8300000, guid: bc84b7ef6de0d394bac977774d8b41e3, type: 3}
     useVariants: 0
     clipVariants:
@@ -129,7 +129,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: b39f009338a2ded479863c1bb5c77830, type: 3}
     useVariants: 0
     clipVariants: []
-    volume: 1
+    volume: 0.771
     pitch: 1
     usePitchVariation: 1
     minPitch: 0.95
@@ -140,6 +140,19 @@ MonoBehaviour:
     audioChannel: 1
   - name: BossDeath
     clip: {fileID: 8300000, guid: b39f009338a2ded479863c1bb5c77830, type: 3}
+    useVariants: 0
+    clipVariants: []
+    volume: 1
+    pitch: 0.961
+    usePitchVariation: 1
+    minPitch: 0.8
+    maxPitch: 0.96
+    loop: 0
+    source: {fileID: 0}
+    pooledSources: []
+    audioChannel: 1
+  - name: SpikeHit
+    clip: {fileID: 8300000, guid: 10e572b68ee4c3d43941f966c3c26151, type: 3}
     useVariants: 0
     clipVariants: []
     volume: 1

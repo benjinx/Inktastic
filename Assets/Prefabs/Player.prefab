@@ -193,6 +193,7 @@ MonoBehaviour:
   onAttackHit:
     m_PersistentCalls:
       m_Calls: []
+  callSuccess: 1
 --- !u!1 &1680914539576970493
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,6 +353,8 @@ GameObject:
   - component: {fileID: 6090504503914395201}
   - component: {fileID: 5559884984607402307}
   - component: {fileID: 1364373660033674384}
+  - component: {fileID: 3281019288539956362}
+  - component: {fileID: 8111769541333547163}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -625,6 +628,21 @@ MonoBehaviour:
   actorRenderer: {fileID: 327772624071162333}
   hitAudioTag: PlayerHurt
   deathAudioTag: PlayerDeath
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8111769541333547163}
+        m_TargetAssemblyTypeName: Timer, Assembly-CSharp
+        m_MethodName: EnableTimer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1364373660033674384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +659,48 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &3281019288539956362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2437896389263818478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52dd534a23911d046a8318c5ecc74117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8111769541333547163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2437896389263818478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24eead1e5fad0a2499a4967416a90e90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 3
+  onFinished:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3281019288539956362}
+        m_TargetAssemblyTypeName: WinControl, Assembly-CSharp
+        m_MethodName: EndGame
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  timerStart: 3
+  startAction: 2
 --- !u!1 &2459704117390869076
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,6 +1029,7 @@ MonoBehaviour:
   onAttackHit:
     m_PersistentCalls:
       m_Calls: []
+  callSuccess: 1
 --- !u!65 &7954971854806185232
 BoxCollider:
   m_ObjectHideFlags: 0

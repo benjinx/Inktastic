@@ -224,6 +224,7 @@ MonoBehaviour:
   onAttackHit:
     m_PersistentCalls:
       m_Calls: []
+  onHitSFX: SpikeHit
   callSuccess: 0
 --- !u!65 &5430590546557211779
 BoxCollider:

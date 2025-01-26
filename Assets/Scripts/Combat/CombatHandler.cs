@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CombatHandler : GameplayBehaviour
 {
@@ -16,6 +17,8 @@ public class CombatHandler : GameplayBehaviour
     public Action hitSuccess;
     public string hitAudioTag;
     public string deathAudioTag;
+
+    public UnityEvent onDeath;
 
     private List<Hitbox> hitboxes = new List<Hitbox>();
     private bool colorFlashing;
@@ -104,6 +107,8 @@ public class CombatHandler : GameplayBehaviour
     public void Die()
     {
         dead = true;
+
+        onDeath?.Invoke();
 
         if(deathAudioTag != "")
         {

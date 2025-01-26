@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: MainMenuSceneNode
   m_EditorClassIdentifier: 
   toLoad:
-  - {fileID: 102900000, guid: 99c9720ab356a0642a771bea13969a05, type: 3}
+  - {fileID: 102900000, guid: 7c49c7cd4c9d5fc418084309379d4603, type: 3}
   toUnload:
   - {fileID: 102900000, guid: d4df1ca1dfe8e764d9acb9a4c054cc66, type: 3}

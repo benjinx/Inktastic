@@ -26,6 +26,8 @@ public class Hitbox : GameplayBehaviour
     public UnityEvent onAttackEnd;
     public UnityEvent onAttackHit;
 
+    public string onHitSFX = "";
+
     public bool callSuccess = true;
 
     private void Start()
@@ -97,6 +99,11 @@ public class Hitbox : GameplayBehaviour
                         if (callSuccess)
                         {
                             combat.hitSuccess?.Invoke();
+                        }
+
+                        if(onHitSFX != "")
+                        {
+                            MagesAudioManager.Instance.PlayClip(onHitSFX);
                         }
                         onAttackHit?.Invoke();
                         alreadyHit.Add(hitbox.combat);
