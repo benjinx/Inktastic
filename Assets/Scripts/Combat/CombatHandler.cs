@@ -43,11 +43,11 @@ public class CombatHandler : GameplayBehaviour
             float normalizedHealth = (float)currentHealth / (float)maxHealth;
 
             // Call porriths callback
-            GameplayStates.ChangeBossHealth(normalizedHealth);
+            //GameplayStates.ChangeBossHealth(normalizedHealth);
         }
         else if (transform.tag == "Player")
         {
-            GameplayStates.ChangePlayerHealth((int)currentHealth, (int)maxHealth);
+            //GameplayStates.ChangePlayerHealth((int)currentHealth, (int)maxHealth);
         }
     }
 

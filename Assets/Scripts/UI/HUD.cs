@@ -84,8 +84,8 @@ public class HUD : GameplayBehaviour
         var playerHealthGroup = root.Q<VisualElement>("player-health");
         playerHealthBinding = new ProgressBarBindings(playerHealthGroup.Q<VisualElement>("bar"), playerHealthGroup.Q<Label>("fraction"));
 
-        var ammoGroup = root.Q<VisualElement>("ammo");
-        ammoBinding = new ProgressBarBindings(ammoGroup.Q<VisualElement>("bar"), ammoGroup.Q<Label>("fraction"));
+        //var ammoGroup = root.Q<VisualElement>("ammo");
+        //ammoBinding = new ProgressBarBindings(ammoGroup.Q<VisualElement>("bar"), ammoGroup.Q<Label>("fraction"));
     }
 
     public void EnableBossUI()
@@ -98,7 +98,7 @@ public class HUD : GameplayBehaviour
     private void OnEnable()
     {
         GameplayStates.OnBossHealthDelta += OnBossHealthChange;
-        GameplayStates.OnPlayerAmmoDelta += OnPlayerAmmoChange;
+        //GameplayStates.OnPlayerAmmoDelta += OnPlayerAmmoChange;
         GameplayStates.OnPlayerHealthDelta += OnPlayerHealthChange;
 
     }
@@ -106,7 +106,7 @@ public class HUD : GameplayBehaviour
     private void OnDisable()
     {
         GameplayStates.OnBossHealthDelta -= OnBossHealthChange;
-        GameplayStates.OnPlayerAmmoDelta -= OnPlayerAmmoChange;
+        //GameplayStates.OnPlayerAmmoDelta -= OnPlayerAmmoChange;
         GameplayStates.OnPlayerHealthDelta -= OnPlayerHealthChange;
     }
 
@@ -117,7 +117,7 @@ public class HUD : GameplayBehaviour
 
     private void OnPlayerAmmoChange(int rawValue, int denominator)
     {
-        ammoBinding.Update(rawValue, denominator);
+        //ammoBinding.Update(rawValue, denominator);
     }
 
     private void OnPlayerHealthChange(int rawValue, int denominator)

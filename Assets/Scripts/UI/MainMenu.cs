@@ -22,8 +22,24 @@ public class MainMenu : MonoBehaviour
         {
             btn.RegisterCallback<MouseUpEvent>(async _ =>
             {
-                await SceneOperations.LoadScenes(sceneSet.SceneLoadIndices, () => Debug.Log("Finished load"));
-                await SceneOperations.UnloadScenes(sceneSet.SceneUnloadIndices, () => Debug.Log("Finished unload"));
+                await SceneOperations.LoadScenes(sceneSet.SceneLoadIndices, () =>
+                {
+                    foreach (var item in sceneSet.SceneLoadIndices)
+                    {
+                        Debug.Log("LOADED " + item);
+                    }
+                });
+
+          
+
+               
+                await SceneOperations.UnloadScenes(sceneSet.SceneUnloadIndices, () =>
+                {
+                    foreach (var item in sceneSet.SceneUnloadIndices)
+                    {
+                        Debug.Log("UNLOADED " + item);
+                    }
+                });
             });
 
             img.RegisterCallback<MouseUpEvent>(async _ =>
