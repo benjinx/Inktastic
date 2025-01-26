@@ -94,6 +94,7 @@ public class Boss : GameplayBehaviour
                         bubble.mode = Bubble.Mode.Tracking;
                         bubble.target = GameManager.instance.player.transform;
                         bubble.trackingSpeed = 5.0f;
+                        bubble.combatHandler = combatHandler;
 
                         int randomDeleteTime = Random.Range(4, 8);
 
@@ -126,36 +127,51 @@ public class Boss : GameplayBehaviour
                     float offsetAmount = 5.0f;
 
                     Vector3 positionRight = transform.position + new Vector3(offsetAmount, 0.0f, 0.0f);
+                    positionRight.y = 1.5f;
                     Quaternion rotationRight = Quaternion.Euler(Vector3.up * 90.0f);
-                    GameObject rightBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionRight, rotationRight);
-                    rightBubble.transform.parent = parentObject.transform;
-                    rightBubble.GetComponent<Bubble>().speed = p2speed;
-                    //bubble.combathandler -> mine;
+                    GameObject rightBubbleGobj = ObjectPooler.Instance.SpawnFromPool("bubbles", positionRight, rotationRight);
+                    rightBubbleGobj.transform.parent = parentObject.transform;
+
+                    Bubble rightBubble = rightBubbleGobj.GetComponent<Bubble>();
+                    rightBubble.speed = p2speed;
+                    rightBubble.combatHandler = combatHandler;
 
                     Vector3 positionLeft = transform.position + new Vector3(-offsetAmount, 0.0f, 0.0f);
+                    positionLeft.y = 1.5f;
                     Quaternion rotationLeft = Quaternion.Euler(Vector3.up * 270.0f);
-                    GameObject leftBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionLeft, rotationLeft);
-                    leftBubble.transform.parent = parentObject.transform;
-                    leftBubble.GetComponent<Bubble>().speed = p2speed;
+                    GameObject leftBubbleGobj = ObjectPooler.Instance.SpawnFromPool("bubbles", positionLeft, rotationLeft);
+                    leftBubbleGobj.transform.parent = parentObject.transform;
+
+                    Bubble leftBubble = leftBubbleGobj.GetComponent<Bubble>();
+                    leftBubble.speed = p2speed;
+                    leftBubble.combatHandler = combatHandler;
 
                     Vector3 positionForward = transform.position + new Vector3(0f, 0.0f, offsetAmount);
+                    positionForward.y = 1.5f;
                     Quaternion rotationForward = Quaternion.Euler(Vector3.up * 0);
-                    GameObject forwardBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionForward, rotationForward);
-                    forwardBubble.transform.parent = parentObject.transform;
-                    forwardBubble.GetComponent<Bubble>().speed = p2speed;
+                    GameObject forwardBubbleGobj = ObjectPooler.Instance.SpawnFromPool("bubbles", positionForward, rotationForward);
+                    forwardBubbleGobj.transform.parent = parentObject.transform;
+
+                    Bubble forwardBubble = forwardBubbleGobj.GetComponent<Bubble>();
+                    forwardBubble.speed = p2speed;
+                    forwardBubble.combatHandler = combatHandler;
 
                     Vector3 positionBackward = transform.position + new Vector3(0f, 0.0f, -offsetAmount);
+                    positionBackward.y = 1.5f;
                     Quaternion rotationBackward = Quaternion.Euler(Vector3.up * 180.0f);
-                    GameObject backwardBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionBackward, rotationBackward);
-                    backwardBubble.transform.parent = parentObject.transform;
-                    backwardBubble.GetComponent<Bubble>().speed = p2speed;
+                    GameObject backwardBubbleGobj = ObjectPooler.Instance.SpawnFromPool("bubbles", positionBackward, rotationBackward);
+                    backwardBubbleGobj.transform.parent = parentObject.transform;
+
+                    Bubble backwardBubble = backwardBubbleGobj.GetComponent<Bubble>();
+                    backwardBubble.speed = p2speed;
+                    backwardBubble.combatHandler = combatHandler;
 
                     int deleteTime = 5;
 
-                    DespawnBubble(rightBubble, deleteTime);
-                    DespawnBubble(leftBubble, deleteTime);
-                    DespawnBubble(forwardBubble, deleteTime);
-                    DespawnBubble(backwardBubble, deleteTime);
+                    DespawnBubble(rightBubbleGobj, deleteTime);
+                    DespawnBubble(leftBubbleGobj, deleteTime);
+                    DespawnBubble(forwardBubbleGobj, deleteTime);
+                    DespawnBubble(backwardBubbleGobj, deleteTime);
                 }
 
                 break;
@@ -168,8 +184,6 @@ public class Boss : GameplayBehaviour
                     int bubbleCount = 50;
 
                     float angleStep = 360.0f / bubbleCount;
-
-                    int shiftOffset = ringCount % 10;
 
                     int amountOfBubblesToSkip = 5;
 
@@ -195,13 +209,20 @@ public class Boss : GameplayBehaviour
 
                         Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0.0f, Mathf.Sin(angle * Mathf.Deg2Rad));
 
+                        Vector3 newPos = transform.position + (direction * spawnOffset);
+
+                        newPos.y = 1.5f;
+
                         Quaternion rotation = Quaternion.LookRotation(direction);
-                        GameObject bubble = ObjectPooler.Instance.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
-                        bubble.GetComponent<Bubble>().speed = 2.0f;
+                        GameObject bubbleGobj = ObjectPooler.Instance.SpawnFromPool("bubbles", newPos, rotation);
+
+                        Bubble bubble = bubbleGobj.GetComponent<Bubble>();
+                        bubble.speed = 2.0f;
+                        bubble.combatHandler = combatHandler;
 
                         int deleteTime = 5;
 
-                        DespawnBubble(bubble, deleteTime);
+                        DespawnBubble(bubbleGobj, deleteTime);
                     }
 
                     ringCount++;
@@ -227,13 +248,20 @@ public class Boss : GameplayBehaviour
 
                         Vector3 direction = new Vector3(Mathf.Cos(angle * Mathf.Deg2Rad), 0.0f, Mathf.Sin(angle * Mathf.Deg2Rad));
 
+                        Vector3 newPos = transform.position + (direction * spawnOffset);
+
+                        newPos.y = 1.5f;
+
                         Quaternion rotation = Quaternion.LookRotation(direction);
-                        GameObject bubble = ObjectPooler.Instance.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
-                        bubble.GetComponent<Bubble>().speed = 2.0f;
+                        GameObject bubbleGobj = ObjectPooler.Instance.SpawnFromPool("bubbles", newPos, rotation);
+
+                        Bubble bubble = bubbleGobj.GetComponent<Bubble>();
+                        bubble.speed = 2.0f;
+                        bubble.combatHandler = combatHandler;
 
                         int deleteTime = 5;
 
-                        DespawnBubble(bubble, deleteTime);
+                        DespawnBubble(bubbleGobj, deleteTime);
                     }
                 }
 
