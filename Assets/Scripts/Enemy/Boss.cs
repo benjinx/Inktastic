@@ -147,7 +147,7 @@ public class Boss : GameplayBehaviour
                     backwardBubble.transform.parent = parentObject.transform;
                     backwardBubble.GetComponent<Bubble>().speed = p2speed;
 
-                    int deleteTime = 8;
+                    int deleteTime = 5;
 
                     DespawnBubble(rightBubble, deleteTime);
                     DespawnBubble(leftBubble, deleteTime);
@@ -196,7 +196,7 @@ public class Boss : GameplayBehaviour
                         GameObject bubble = ObjectPooler.Instance.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
                         bubble.GetComponent<Bubble>().speed = 2.0f;
 
-                        int deleteTime = 8;
+                        int deleteTime = 5;
 
                         DespawnBubble(bubble, deleteTime);
                     }
@@ -228,7 +228,7 @@ public class Boss : GameplayBehaviour
                         GameObject bubble = ObjectPooler.Instance.SpawnFromPool("bubbles", transform.position + (direction * spawnOffset), rotation);
                         bubble.GetComponent<Bubble>().speed = 2.0f;
 
-                        int deleteTime = 8;
+                        int deleteTime = 5;
 
                         DespawnBubble(bubble, deleteTime);
                     }
