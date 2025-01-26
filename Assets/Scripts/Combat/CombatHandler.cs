@@ -56,6 +56,14 @@ public class CombatHandler : GameplayBehaviour
         Debug.Log("OUCH");
         FlashMaterial(actorRenderer.material, Color.red, flashColorDuration);
 
+        if (currentHealth <= 0)
+        {
+            // Force 0 health, good habbit
+            currentHealth = 0;
+
+            Die();
+        }
+
         if (transform.tag == "Boss")
         {
             // Update boss health bar
@@ -68,15 +76,6 @@ public class CombatHandler : GameplayBehaviour
         {
             GameplayStates.ChangePlayerHealth((int)currentHealth, (int)maxHealth);
         }
-
-        if (currentHealth <= 0)
-        {
-            // Force 0 health, good habbit
-            currentHealth = 0;
-
-            Die();
-        }
-
     }
 
     public void Die()

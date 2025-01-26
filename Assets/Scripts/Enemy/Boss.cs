@@ -78,13 +78,15 @@ public class Boss : GameplayBehaviour
 
                     for (int i = 0; i < amount; ++i)
                     {
-                        // Spawn bubble
-                        GameObject newBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", Vector3.zero, Quaternion.identity);
-
                         // Set parent
-                        newBubble.transform.position = transform.position + new Vector3(-5.0f + (i * 1.5f),
+                        Vector3 newPos = transform.position + new Vector3(-5.0f + (i * 1.5f),
                                                                     0.0f,
                                                                     -5.0f + (i * -2.5f)); // Front of boss
+
+                        newPos.y = 1.5f;
+
+                        // Spawn bubble
+                        GameObject newBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", newPos, Quaternion.identity);
 
                         // Set mode
                         Bubble bubble = newBubble.GetComponent<Bubble>();
@@ -128,6 +130,7 @@ public class Boss : GameplayBehaviour
                     GameObject rightBubble = ObjectPooler.Instance.SpawnFromPool("bubbles", positionRight, rotationRight);
                     rightBubble.transform.parent = parentObject.transform;
                     rightBubble.GetComponent<Bubble>().speed = p2speed;
+                    //bubble.combathandler -> mine;
 
                     Vector3 positionLeft = transform.position + new Vector3(-offsetAmount, 0.0f, 0.0f);
                     Quaternion rotationLeft = Quaternion.Euler(Vector3.up * 270.0f);

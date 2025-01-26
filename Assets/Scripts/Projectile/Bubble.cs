@@ -20,6 +20,8 @@ public class Bubble : GameplayBehaviour
 
     public Transform target;
 
+    private CombatHandler combatHandler;
+
     private void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
