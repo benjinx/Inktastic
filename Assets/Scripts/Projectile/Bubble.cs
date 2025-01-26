@@ -20,7 +20,7 @@ public class Bubble : GameplayBehaviour
 
     public Transform target;
 
-    private CombatHandler combatHandler;
+    public CombatHandler combatHandler;
 
     private void OnEnable()
     {
