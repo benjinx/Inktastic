@@ -32,6 +32,22 @@ public class CombatHandler : GameplayBehaviour
         currentHealth = maxHealth;
     }
 
+    private void Start()
+    {
+        if (transform.tag == "Boss")
+        {
+            // Update boss health bar
+            float normalizedHealth = (float)currentHealth / (float)maxHealth;
+
+            // Call porriths callback
+            GameplayStates.ChangeBossHealth(normalizedHealth);
+        }
+        else if (transform.tag == "Player")
+        {
+            GameplayStates.ChangePlayerHealth((int)currentHealth, (int)maxHealth);
+        }
+    }
+
     public void TakeDamage(float _damage)
     {
         if (dead)

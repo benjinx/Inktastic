@@ -83,7 +83,7 @@ public class Needle : GameplayBehaviour
 
         isAvailable = false;
 
-        hitbox.ActivateHitbox(1.0f, 50);
+        hitbox.ActivateHitbox(1.0f, 40);
     }
 
     // Called when we hit the target

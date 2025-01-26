@@ -63,7 +63,7 @@ public class HUD : GameplayBehaviour
     protected override void Awake()
     {
 #if UNITY_EDITOR && DEBUG
-        UpdateFlags = UpdateFlags.Update;
+       // UpdateFlags = UpdateFlags.Update;
 #else
         UpdateFlags = 0;
 #endif
@@ -79,11 +79,20 @@ public class HUD : GameplayBehaviour
         bossHealth = boss.Q<VisualElement>("bar");
         boss.Q<Label>("name").text = bossName;
 
+        boss.visible = false;
+
         var playerHealthGroup = root.Q<VisualElement>("player-health");
         playerHealthBinding = new ProgressBarBindings(playerHealthGroup.Q<VisualElement>("bar"), playerHealthGroup.Q<Label>("fraction"));
 
         var ammoGroup = root.Q<VisualElement>("ammo");
         ammoBinding = new ProgressBarBindings(ammoGroup.Q<VisualElement>("bar"), ammoGroup.Q<Label>("fraction"));
+    }
+
+    public void EnableBossUI()
+    {
+        var boss = root.Q<TemplateContainer>("boss");
+
+        boss.visible = true;
     }
 
     private void OnEnable()

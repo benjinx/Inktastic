@@ -221,6 +221,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onAttackHit:
+    m_PersistentCalls:
+      m_Calls: []
+  callSuccess: 0
 --- !u!65 &5430590546557211779
 BoxCollider:
   m_ObjectHideFlags: 0

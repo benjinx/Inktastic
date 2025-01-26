@@ -4,6 +4,8 @@ public class BossTrigger : MonoBehaviour
 {
     public Boss boss;
 
+    public HUD hud;
+
     void Start()
     {
         
@@ -14,6 +16,7 @@ public class BossTrigger : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             boss.StartBossCombat();
+            hud.EnableBossUI();
         }
     }
 }

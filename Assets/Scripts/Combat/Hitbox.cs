@@ -26,6 +26,7 @@ public class Hitbox : GameplayBehaviour
     public UnityEvent onAttackEnd;
     public UnityEvent onAttackHit;
 
+    public bool callSuccess = true;
 
     private void Start()
     {
@@ -92,7 +93,11 @@ public class Hitbox : GameplayBehaviour
                         {
                             hitbox.combat.GetComponent<EnemyStateMachine>().eyes.Spook(combat.GetComponent<PlayerStateMachine>());
                         }
-                        combat.hitSuccess?.Invoke();
+
+                        if (callSuccess)
+                        {
+                            combat.hitSuccess?.Invoke();
+                        }
                         onAttackHit?.Invoke();
                         alreadyHit.Add(hitbox.combat);
                     }
